@@ -22,7 +22,7 @@ package org.alicebot.ab;
 import java.util.Set;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
+import net.seibertmedia.chatbot.tempor;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -34,7 +34,7 @@ import org.w3c.dom.NodeList;
 public class PCAIMLProcessorExtension implements AIMLProcessorExtension {
     public Set<String> extensionTagNames = Utilities.stringSet("contactid","multipleids","displayname","dialnumber","emailaddress","contactbirthday","addinfo");
 
-    private UserInteraction userinteraction;
+  private tempor userinteraction;
 
     public PCAIMLProcessorExtension() {
         userinteraction = new CommandLineInteraction();

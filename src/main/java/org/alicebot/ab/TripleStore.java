@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
+import net.seibertmedia.chatbot.tempor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class TripleStore {
     public HashMap<String, HashSet<String>> predicateTriples = new HashMap<String, HashSet<String>>();
     public HashMap<String, HashSet<String>> objectTriples = new HashMap<String, HashSet<String>>();
 
-    private UserInteraction userinteraction;
+  private tempor userinteraction;
 
     public TripleStore(String name, Chat chatSession) {
         this.name = name;

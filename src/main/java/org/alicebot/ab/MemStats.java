@@ -1,7 +1,7 @@
 package org.alicebot.ab;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
+import net.seibertmedia.chatbot.tempor;
 
 import org.alicebot.ab.utils.MemoryUtils;
 
@@ -25,7 +25,7 @@ import org.alicebot.ab.utils.MemoryUtils;
 public class MemStats {
   public static long prevHeapSize = 0;
 
-  private static UserInteraction userinteraction = new CommandLineInteraction();
+  private static tempor userinteraction = new CommandLineInteraction();
 
   /**
    * print out some statistics about heap size

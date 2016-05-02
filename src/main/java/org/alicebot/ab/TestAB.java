@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
+import net.seibertmedia.chatbot.tempor;
 
 import org.alicebot.ab.utils.IOUtils;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ public class TestAB {
 
     public static String sample_file = "sample.random.txt";
 
-    private static UserInteraction userinteraction = new CommandLineInteraction();
+  private static tempor userinteraction = new CommandLineInteraction();
 
     public static void testChat (Bot bot, boolean doWrites, boolean traceMode) {
         Chat chatSession = new Chat(bot, doWrites);

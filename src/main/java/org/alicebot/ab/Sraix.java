@@ -26,7 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
+import net.seibertmedia.chatbot.tempor;
 
 import org.alicebot.ab.utils.CalendarUtils;
 import org.alicebot.ab.utils.NetworkUtils;
@@ -40,7 +40,7 @@ public class Sraix {
 
     private static final Logger logger = LoggerFactory.getLogger(Sraix.class);
 
-    private static final UserInteraction userinteraction = new CommandLineInteraction();
+  private static final tempor userinteraction = new CommandLineInteraction();
 
     public static HashMap<String, String> custIdMap = new HashMap<String, String>();
 

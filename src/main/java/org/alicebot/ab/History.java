@@ -20,7 +20,7 @@ package org.alicebot.ab;
 */
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
+import net.seibertmedia.chatbot.tempor;
 
 /**
  * History object to maintain history of input, that request and response
@@ -28,7 +28,7 @@ import net.seibertmedia.chatbot.UserInteraction;
  * @param <T>    type of history object
  */
 public class History<T> {
-    private UserInteraction userInteraction;
+  private tempor userInteraction;
     private Object[] history;
     private String name;
 

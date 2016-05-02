@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
+import net.seibertmedia.chatbot.tempor;
 
 import org.alicebot.ab.utils.IOUtils;
 import org.slf4j.Logger;
@@ -36,7 +36,7 @@ public class AB {
 
     private static final Logger logger = LoggerFactory.getLogger(AB.class);
 
-    private UserInteraction userinteraction;
+  private tempor userinteraction;
 
     /**
      * Experimental class that analyzes log data and suggests

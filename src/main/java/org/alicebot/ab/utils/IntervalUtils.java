@@ -1,7 +1,7 @@
 package org.alicebot.ab.utils;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
+import net.seibertmedia.chatbot.tempor;
 
 import org.joda.time.Days;
 import org.joda.time.Hours;
@@ -15,7 +15,7 @@ import org.joda.time.format.DateTimeFormatter;
 public class IntervalUtils {
 
     public static void test () {
-        UserInteraction userinteraction = new CommandLineInteraction();
+    tempor userinteraction = new CommandLineInteraction();
         String date1 = "23:59:59.00";
         String date2 = "12:00:00.00";
         String format = "HH:mm:ss.SS";

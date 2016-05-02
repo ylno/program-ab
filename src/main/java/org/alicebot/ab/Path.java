@@ -3,7 +3,7 @@ package org.alicebot.ab;
 import java.util.ArrayList;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
+import net.seibertmedia.chatbot.tempor;
 /* Program AB Reference AIML 2.0 implementation
         Copyright (C) 2013 ALICE A.I. Foundation
         Contact: info@alicebot.org
@@ -32,7 +32,7 @@ public class Path extends ArrayList<String>{
     public Path next;
     public int length;
 
-    private UserInteraction userinteraction;
+  private tempor userinteraction;
 
     /**
      * Constructor - class has public members

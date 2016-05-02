@@ -7,12 +7,12 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
+import net.seibertmedia.chatbot.tempor;
 
 
 public class CalendarUtils {
 
-    private static UserInteraction userinteraction = new CommandLineInteraction();
+  private static tempor userinteraction = new CommandLineInteraction();
 
     public static String formatTime(String formatString, long msSinceEpoch) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(formatString);
