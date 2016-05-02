@@ -18,10 +18,15 @@ package org.alicebot.ab;
         Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
         Boston, MA  02110-1301, USA.
 */
-import org.alicebot.ab.utils.CalendarUtils;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashSet;
+
+import org.alicebot.ab.utils.CalendarUtils;
 
 public class Utilities {
 
@@ -75,7 +80,7 @@ public class Utilities {
         try {
             File file = new File(filename);
             if (file.exists()) {
-                //System.out.println("Found file "+filename);
+                //logger.debug("Found file "+filename);
                 FileInputStream fstream = new FileInputStream(filename);
                 // Get the object
                 contents = getFileFromInputStream(fstream) ;
@@ -84,7 +89,7 @@ public class Utilities {
         } catch (Exception e){//Catch exception if any
             System.err.println("Error: " + e.getMessage());
         }
-        //System.out.println("getFile: "+contents);
+        //logger.debug("getFile: "+contents);
         return contents;
     }
     public static String getCopyrightFromInputStream(InputStream in)  {
@@ -125,7 +130,7 @@ public class Utilities {
             System.err.println("Error: " + e.getMessage());
         }
         copyright += "<!--  -->\n";
-        //System.out.println("Copyright: "+copyright);
+        //logger.debug("Copyright: "+copyright);
         return copyright;
     }
 

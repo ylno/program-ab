@@ -1,24 +1,26 @@
 package org.alicebot.ab.utils;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.util.Enumeration;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.*;
-import java.util.Enumeration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class NetworkUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(NetworkUtils.class);
 
 
     public static String localIPAddress() {
@@ -31,7 +33,7 @@ public class NetworkUtils {
                         String ipAddress =  inetAddress.getHostAddress().toString();
                         int p = ipAddress.indexOf("%");
                         if (p > 0) ipAddress = ipAddress.substring(0, p);
-                        //if (MagicBooleans.trace_mode) System.out.println("--> localIPAddress = "+ipAddress);
+                        //if (MagicBooleans.trace_mode) logger.debug("--> localIPAddress = "+ipAddress);
                         return ipAddress;
                     }
                 }
@@ -85,7 +87,7 @@ public class NetworkUtils {
         HttpResponse response = httpclient.execute(httpget);
 
         // Examine the response status
-        System.out.println(response.getStatusLine());
+        logger.debug(response.getStatusLine());
 
         // Get hold of the response entity
         HttpEntity entity = response.getEntity();
@@ -107,7 +109,7 @@ public class NetworkUtils {
                 BufferedReader reader = new BufferedReader(
                         new InputStreamReader(is));
                 // do something useful with the response
-                System.out.println(reader.readLine());
+                logger.debug(reader.readLine());
 
             } catch (IOException ex) {
 
@@ -154,7 +156,7 @@ public class NetworkUtils {
         return sb.toString();
     }
 	public static String spec(String host, String botid, String custid, String input) {
-		//System.out.println("--> custid = "+custid);
+		//logger.debug("--> custid = "+custid);
 		String spec = "";
         try {
 		if (custid.equals("0"))      // get custid on first transaction with Pandorabots
@@ -171,7 +173,7 @@ public class NetworkUtils {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        System.out.println(spec);
+        logger.debug(spec);
 		return spec;
 	}
 

@@ -1,17 +1,20 @@
 package org.alicebot.ab.utils;
 
-import org.alicebot.ab.MagicBooleans;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
+
 
 public class CalendarUtils {
 
-	public static String formatTime(String formatString, long msSinceEpoch) {
+    private static UserInteraction userinteraction = new CommandLineInteraction();
+
+    public static String formatTime(String formatString, long msSinceEpoch) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(formatString);
 		Calendar cal = Calendar.getInstance();
 		dateFormat.setCalendar(cal);
@@ -45,7 +48,7 @@ public class CalendarUtils {
         if (jformat == null) jformat = "EEE MMM dd HH:mm:ss zzz yyyy";
         if (locale == null) locale = Locale.US.getISO3Country();
         if (timezone == null) timezone = TimeZone.getDefault().getDisplayName();
-        //System.out.println("Format = "+format+" Locale = "+locale+" Timezone = "+timezone);
+        //logger.debug("Format = "+format+" Locale = "+locale+" Timezone = "+timezone);
         String dateAsString = new Date().toString();
         try {
         SimpleDateFormat simpleDateFormat =
@@ -53,7 +56,7 @@ public class CalendarUtils {
           dateAsString = simpleDateFormat.format(new Date());
         }
         catch (Exception ex) {
-            System.out.println("CalendarUtils.date Bad date: Format = "+jformat+" Locale = "+locale+" Timezone = "+timezone);
+            userinteraction.outputForUserWithNewline("CalendarUtils.date Bad date: Format = "+jformat+" Locale = "+locale+" Timezone = "+timezone);
             ex.printStackTrace();
         }
         //MagicBooleans.trace("CalendarUtils.date: "+dateAsString);

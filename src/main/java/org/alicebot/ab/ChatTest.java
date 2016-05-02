@@ -1,7 +1,12 @@
 package org.alicebot.ab;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ChatTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(ChatTest.class);
+
     Bot bot;
     Chat chatSession;
     String pairs[][] = {
@@ -274,7 +279,7 @@ public class ChatTest {
             String actual = chatSession.multisentenceRespond(request);
             //assertThat(actual, containsString(expected));
         }
-        System.out.println("Passed "+pairs.length+" test cases.");
+        logger.debug("Passed "+pairs.length+" test cases.");
     }
 
     public String[][] getPairs() {

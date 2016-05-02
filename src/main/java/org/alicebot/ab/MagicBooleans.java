@@ -19,10 +19,14 @@ package org.alicebot.ab;
         Boston, MA  02110-1301, USA.
 */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Global boolean values that control various actions in Program AB
  */
 public class MagicBooleans {
+    private static final Logger logger = LoggerFactory.getLogger(MagicBooleans.class);
     public static boolean trace_mode = true;
     public static boolean enable_external_sets = true;
     public static boolean enable_external_maps = true;
@@ -35,7 +39,7 @@ public class MagicBooleans {
 
 	public static void trace(String traceString) {
  		if (trace_mode) {
- 			System.out.println(traceString);
+ 			logger.debug(traceString);
  		}
  	}
 }

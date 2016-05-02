@@ -26,6 +26,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
+
 import org.alicebot.ab.AB;
 import org.alicebot.ab.AIMLProcessor;
 import org.alicebot.ab.Bot;
@@ -48,6 +51,8 @@ public class Main {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
+    private static final UserInteraction userinteraction = new CommandLineInteraction();
+
     public static void main (String[] args) {
         logger.debug("main starting");
 
@@ -62,14 +67,14 @@ public class Main {
         MagicBooleans.jp_tokenize = false;
         MagicBooleans.trace_mode = true;
         String action="chat";
-        System.out.println(MagicStrings.program_name_version);
+        logger.debug(MagicStrings.program_name_version);
         for (String s : args) {
-            //System.out.println(s);
+            //logger.debug(s);
             String[] splitArg = s.split("=");
             if (splitArg.length >= 2) {
                 String option = splitArg[0];
                 String value = splitArg[1];
-                //if (MagicBooleans.trace_mode) System.out.println(option+"='"+value+"'");
+                //if (MagicBooleans.trace_mode) logger.debug(option+"='"+value+"'");
                 if (option.equals("bot")) botName = value;
                 if (option.equals("action")) action = value;
                 if (option.equals("trace")) {
@@ -84,7 +89,7 @@ public class Main {
                 }
              }
         }
-        if (MagicBooleans.trace_mode) System.out.println("Working Directory = " + MagicStrings.root_path);
+        if (MagicBooleans.trace_mode) logger.debug("Working Directory = " + MagicStrings.root_path);
         Graphmaster.enableShortCuts = true;
         //Timer timer = new Timer();
         Bot bot = new Bot(botName, MagicStrings.root_path, action); //
@@ -94,7 +99,7 @@ public class Main {
         //bot.preProcessor.normalizeFile("c:/ab/data/log2.txt", "c:/ab/data/log2normal.txt");
         //System.exit(0);
         if (bot.brain.getCategories().size() < MagicNumbers.brain_print_size) bot.brain.printgraph();
-        if (MagicBooleans.trace_mode) System.out.println("Action = '"+action+"'");
+        if (MagicBooleans.trace_mode) logger.debug("Action = '"+action+"'");
         if (action.equals("chat") || action.equals("chat-app")) {
 			boolean doWrites = ! action.equals("chat-app");
 			TestAB.testChat(bot, doWrites, MagicBooleans.trace_mode);
@@ -111,7 +116,7 @@ public class Main {
                 }
             catch (Exception ex) { ex.printStackTrace(); }
             }
-        else System.out.println("Unrecognized action "+action);
+        else logger.debug("Unrecognized action "+action);
     }
     public static void convert(Bot bot, String action) {
         if (action.equals("aiml2csv")) bot.writeAIMLIFFiles();
@@ -120,7 +125,7 @@ public class Main {
 
 
     public static void getGloss (Bot bot, String filename) {
-        System.out.println("getGloss");
+        logger.debug("getGloss");
         try{
             // Open the file that is the first
             // command line parameter
@@ -136,7 +141,7 @@ public class Main {
         }
     }
     public static void getGlossFromInputStream (Bot bot, InputStream in)  {
-        System.out.println("getGlossFromInputStream");
+        logger.debug("getGlossFromInputStream");
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
         String strLine;
         int cnt = 0;
@@ -156,14 +161,14 @@ public class Main {
 
                     word = strLine.substring(start, end);
                     word = word.replaceAll("_"," ");
-                    System.out.println(word);
+                    userinteraction.outputForUserWithNewline(word);
 
                 }
                 else  if (strLine.contains("<gloss>")) {
                     gloss = strLine.replaceAll("<gloss>","");
                     gloss = gloss.replaceAll("</gloss>","");
                     gloss = gloss.trim();
-                    System.out.println(gloss);
+                    userinteraction.outputForUserWithNewline(gloss);
 
                 }
 
@@ -191,7 +196,7 @@ public class Main {
                 if (cnt%5000==0) filecnt++;
 
                 Category c = new Category(0,"WNDEF "+word,"*","*",gloss,"wndefs"+filecnt+".aiml");
-                System.out.println(cnt+" "+filecnt+" "+c.inputThatTopic()+":"+c.getTemplate()+":"+c.getFilename());
+                userinteraction.outputForUserWithNewline(cnt+" "+filecnt+" "+c.inputThatTopic()+":"+c.getTemplate()+":"+c.getFilename());
                 Nodemapper node;
                 if ((node = bot.brain.findNode(c)) != null) node.category.setTemplate(node.category.getTemplate()+","+gloss);
                 bot.brain.addCategory(c);
@@ -213,10 +218,10 @@ public class Main {
             //Read File Line By Line
             int count = 0;
             while ((strLine = br.readLine()) != null && count++ < limit) {
-                System.out.println("Human: " + strLine);
+                userinteraction.outputForUserWithNewline("Human: " + strLine);
 
                 String response = chatSession.multisentenceRespond(strLine);
-                System.out.println("Robot: " + response);
+                userinteraction.outputForUserWithNewline("Robot: " + response);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

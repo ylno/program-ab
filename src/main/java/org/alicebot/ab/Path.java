@@ -1,5 +1,9 @@
 package org.alicebot.ab;
+
 import java.util.ArrayList;
+
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
 /* Program AB Reference AIML 2.0 implementation
         Copyright (C) 2013 ALICE A.I. Foundation
         Contact: info@alicebot.org
@@ -28,6 +32,8 @@ public class Path extends ArrayList<String>{
     public Path next;
     public int length;
 
+    private UserInteraction userinteraction;
+
     /**
      * Constructor - class has public members
      */
@@ -35,6 +41,7 @@ public class Path extends ArrayList<String>{
         next = null;
         word = null;
         length = 0;
+        userinteraction = new CommandLineInteraction();
     }
 
     /**
@@ -113,7 +120,7 @@ public class Path extends ArrayList<String>{
             result += p.word+",";
         }
         if (result.endsWith(",")) result = result.substring(0, result.length()-1);
-        System.out.println(result);
+        userinteraction.outputForUserWithNewline(result);
     }
 
 }

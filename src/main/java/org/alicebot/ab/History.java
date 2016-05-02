@@ -19,12 +19,16 @@ package org.alicebot.ab;
         Boston, MA  02110-1301, USA.
 */
 
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
+
 /**
  * History object to maintain history of input, that request and response
  *
  * @param <T>    type of history object
  */
 public class History<T> {
+    private UserInteraction userInteraction;
     private Object[] history;
     private String name;
 
@@ -33,6 +37,7 @@ public class History<T> {
      */
     public History () {
         this("unknown");
+        userInteraction = new CommandLineInteraction();
     }
 
     /**
@@ -43,6 +48,7 @@ public class History<T> {
     public History(String name) {
         this.name = name;
         history = new Object[MagicNumbers.max_history];
+        userInteraction = new CommandLineInteraction();
     }
 
     /**
@@ -91,8 +97,9 @@ public class History<T> {
     public void printHistory() {
         int i;
         for (i = 0; get(i) != null; i++) {
-            System.out.println(name+"History "+(i+1)+" = "+get(i));
-            System.out.println(String.valueOf(get(i).getClass()).contains("History"));
+            userInteraction.outputForUserWithNewline(name+"History "+(i+1)+" = "+get(i));
+            userInteraction.outputForUserWithNewline(String.valueOf(get(i).getClass()).contains("History"));
+
             if (String.valueOf(get(i).getClass()).contains("History")) ((History)get(i)).printHistory();
         }
     }

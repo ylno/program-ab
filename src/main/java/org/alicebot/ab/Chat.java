@@ -1,9 +1,20 @@
 package org.alicebot.ab;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
+
 import org.alicebot.ab.utils.IOUtils;
 import org.alicebot.ab.utils.JapaneseUtils;
-
-import java.io.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /* Program AB Reference AIML 2.0 implementation
         Copyright (C) 2013 ALICE A.I. Foundation
@@ -28,6 +39,10 @@ import java.io.*;
  * Class encapsulating a chat session between a bot and a client
  */
 public class Chat {
+    private static final Logger logger = LoggerFactory.getLogger(Chat.class);
+
+    UserInteraction userInteraction;
+
     public Bot bot;
     public boolean doWrites;
     public String customerId = MagicStrings.default_Customer_id;
@@ -62,6 +77,7 @@ public class Chat {
      * @param customerId      unique customer identifier
      */
     public Chat(Bot bot, boolean doWrites, String customerId) {
+        userInteraction = new CommandLineInteraction();
         this.customerId = customerId;
         this.bot = bot;
 		this.doWrites = doWrites;
@@ -72,7 +88,7 @@ public class Chat {
         addTriples();
         predicates.put("topic", MagicStrings.default_topic);
         predicates.put("jsenabled", MagicStrings.js_enabled);
-        if (MagicBooleans.trace_mode) System.out.println("Chat Session Created for bot "+bot.name);
+        if (MagicBooleans.trace_mode) logger.debug("Chat Session Created for bot "+bot.name);
     }
 
     /**
@@ -91,7 +107,7 @@ public class Chat {
 
     int addTriples() {
         int tripleCnt = 0;
-        if (MagicBooleans.trace_mode) System.out.println("Loading Triples from "+bot.config_path+"/triples.txt");
+        if (MagicBooleans.trace_mode) logger.debug("Loading Triples from "+bot.config_path+"/triples.txt");
         File f = new File(bot.config_path+"/triples.txt");
         if (f.exists())
         try {
@@ -114,7 +130,7 @@ public class Chat {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        if (MagicBooleans.trace_mode) System.out.println("Loaded "+tripleCnt+" triples");
+        if (MagicBooleans.trace_mode) logger.debug("Loaded "+tripleCnt+" triples");
         return tripleCnt;
     }
 
@@ -130,10 +146,10 @@ public class Chat {
             String request="SET PREDICATES";
             String response = multisentenceRespond(request);
             while (!request.equals("quit")) {
-                System.out.print("Human: ");
+                userInteraction.outputForUser("Human: ");
 				request = IOUtils.readInputTextLine();
                 response = multisentenceRespond(request);
-                System.out.println("Robot: "+response);
+                userInteraction.outputForUserWithNewline("Robot: "+response);
                 bw.write("Human: "+request);
                 bw.newLine();
                 bw.write("Robot: "+response);
@@ -160,7 +176,7 @@ public class Chat {
         boolean repetition = true;
         //inputHistory.printHistory();
         for (int i = 0; i < MagicNumbers.repetition_count; i++) {
-            //System.out.println(request.toUpperCase()+"=="+inputHistory.get(i)+"? "+request.toUpperCase().equals(inputHistory.get(i)));
+            //userinteraction.outputForUserWithNewline(request.toUpperCase()+"=="+inputHistory.get(i)+"? "+request.toUpperCase().equals(inputHistory.get(i)));
             if (inputHistory.get(i) == null || !input.toUpperCase().equals(inputHistory.get(i).toUpperCase()))
                 repetition = false;
         }
@@ -178,7 +194,7 @@ public class Chat {
         String sentences[] = bot.preProcessor.sentenceSplit(normResponse);
         for (int i = 0; i < sentences.length; i++) {
           that = sentences[i];
-          //System.out.println("That "+i+" '"+that+"'");
+          //userinteraction.outputForUserWithNewline("That "+i+" '"+that+"'");
           if (that.trim().equals("")) that = MagicStrings.default_that;
           contextThatHistory.add(that);
         }
@@ -220,11 +236,11 @@ public class Chat {
             String sentences[] = bot.preProcessor.sentenceSplit(normalized);
             History<String> contextThatHistory = new History<String>("contextThat");
             for (int i = 0; i < sentences.length; i++) {
-                //System.out.println("Human: "+sentences[i]);
+                //userinteraction.outputForUserWithNewline("Human: "+sentences[i]);
                 AIMLProcessor.trace_count = 0;
                 String reply = respond(sentences[i], contextThatHistory);
                 response += "  "+reply;
-                //System.out.println("Robot: "+reply);
+                //userinteraction.outputForUserWithNewline("Robot: "+reply);
             }
             requestHistory.add(request);
             responseHistory.add(response);

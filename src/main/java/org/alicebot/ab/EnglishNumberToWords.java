@@ -9,9 +9,10 @@ package org.alicebot.ab;
 
  **/
 
-
 import java.text.DecimalFormat;
-import java.util.Scanner;
+
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
 
 public class EnglishNumberToWords
 {
@@ -50,6 +51,8 @@ public class EnglishNumberToWords
             " eighteen",
             " nineteen"
     };
+
+    private static UserInteraction userinteraction = new CommandLineInteraction();
 
     private EnglishNumberToWords() {}
 
@@ -153,7 +156,7 @@ public class EnglishNumberToWords
             String number = ""+i;
             numberName.add(name);
             name2number.put(name, number);
-            if (i == 1000) System.out.println("Name2number("+name+")="+number);
+            if (i == 1000) userinteraction.outputForUserWithNewline("Name2number("+name+")="+number);
 
 
         }
@@ -163,25 +166,25 @@ public class EnglishNumberToWords
 
     }
     public static void main(String[] args) {
-        System.out.println("*** " + EnglishNumberToWords.convert(0));
-        System.out.println("*** " + EnglishNumberToWords.convert(1));
-        System.out.println("*** " + EnglishNumberToWords.convert(16));
-        System.out.println("*** " + EnglishNumberToWords.convert(100));
-        System.out.println("*** " + EnglishNumberToWords.convert(118));
-        System.out.println("*** " + EnglishNumberToWords.convert(200));
-        System.out.println("*** " + EnglishNumberToWords.convert(219));
-        System.out.println("*** " + EnglishNumberToWords.convert(800));
-        System.out.println("*** " + EnglishNumberToWords.convert(801));
-        System.out.println("*** " + EnglishNumberToWords.convert(1316));
-        System.out.println("*** " + EnglishNumberToWords.convert(1000000));
-        System.out.println("*** " + EnglishNumberToWords.convert(2000000));
-        System.out.println("*** " + EnglishNumberToWords.convert(3000200));
-        System.out.println("*** " + EnglishNumberToWords.convert(700000));
-        System.out.println("*** " + EnglishNumberToWords.convert(9000000));
-        System.out.println("*** " + EnglishNumberToWords.convert(9001000));
-        System.out.println("*** " + EnglishNumberToWords.convert(123456789));
-        System.out.println("*** " + EnglishNumberToWords.convert(2147483647));
-        System.out.println("*** " + EnglishNumberToWords.convert(3000000010L));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(0));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(1));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(16));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(100));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(118));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(200));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(219));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(800));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(801));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(1316));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(1000000));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(2000000));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(3000200));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(700000));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(9000000));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(9001000));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(123456789));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(2147483647));
+        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(3000000010L));
 
     /*
      *** zero

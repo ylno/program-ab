@@ -1,16 +1,26 @@
 package org.alicebot.ab;
 
-import org.alicebot.ab.utils.IOUtils;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
+
+import org.alicebot.ab.utils.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by User on 5/13/2014.
  */
 public class TestAB {
+    private static final Logger logger = LoggerFactory.getLogger(TestAB.class);
+
     public static String sample_file = "sample.random.txt";
+
+    private static UserInteraction userinteraction = new CommandLineInteraction();
+
     public static void testChat (Bot bot, boolean doWrites, boolean traceMode) {
         Chat chatSession = new Chat(bot, doWrites);
         bot.brain.nodeStats();
@@ -37,26 +47,26 @@ public class TestAB {
             else if (textLine.equals("ab")) testAB(bot, sample_file);
             else {
                 String request = textLine;
-                if (MagicBooleans.trace_mode) System.out.println("STATE="+request+":THAT="+chatSession.thatHistory.get(0).get(0)+":TOPIC="+chatSession.predicates.get("topic"));
+                if (MagicBooleans.trace_mode) logger.debug("STATE="+request+":THAT="+chatSession.thatHistory.get(0).get(0)+":TOPIC="+chatSession.predicates.get("topic"));
                 String response = chatSession.multisentenceRespond(request);
                 while (response.contains("&lt;")) response = response.replace("&lt;","<");
                 while (response.contains("&gt;")) response = response.replace("&gt;",">");
                 IOUtils.writeOutputTextLine("Robot", response);
-                //System.out.println("Learn graph:");
+                //logger.debug("Learn graph:");
                 //bot.learnGraph.printgraph();
             }
         }
     }
     public static void testBotChat () {
         Bot bot = new Bot("alice");
-        System.out.println(bot.brain.upgradeCnt+" brain upgrades");
+        logger.debug(bot.brain.upgradeCnt+" brain upgrades");
 
         //bot.brain.printgraph();
         Chat chatSession = new Chat(bot);
         String request = "Hello.  How are you?  What is your name?  Tell me about yourself.";
         String response = chatSession.multisentenceRespond(request);
-        System.out.println("Human: "+request);
-        System.out.println("Robot: "+response);
+        userinteraction.outputForUserWithNewline("Human: "+request);
+        userinteraction.outputForUserWithNewline("Robot: "+response);
     }
 
     public static void runTests(Bot bot, boolean traceMode) {
@@ -71,7 +81,7 @@ public class TestAB {
         //IOUtils testOutput = new IOUtils(MagicStrings.root_path + "/data/callmom-outputs.txt", "write");
         String textLine = testInput.readLine();
         int i = 1;
-        System.out.print(0);
+        userinteraction.outputForUser(new Integer(0).toString());
         while (textLine != null) {
             if (textLine == null || textLine.length() < 1)  textLine = MagicStrings.null_input;
             if (textLine.equals("q")) System.exit(0);
@@ -85,7 +95,7 @@ public class TestAB {
             else if (textLine.startsWith("#")) testOutput.writeLine(textLine);
             else {
                 String request = textLine;
-                if (MagicBooleans.trace_mode) System.out.println("STATE="+request+":THAT="+chatSession.thatHistory.get(0).get(0)+":TOPIC="+chatSession.predicates.get("topic"));
+                if (MagicBooleans.trace_mode) logger.debug("STATE="+request+":THAT="+chatSession.thatHistory.get(0).get(0)+":TOPIC="+chatSession.predicates.get("topic"));
                 String response = chatSession.multisentenceRespond(request);
                 while (response.contains("&lt;")) response = response.replace("&lt;","<");
                 while (response.contains("&gt;")) response = response.replace("&gt;",">");
@@ -93,20 +103,20 @@ public class TestAB {
             }
             textLine = testInput.readLine();
 
-            System.out.print(".");
-            if (i % 10 == 0) System.out.print(" ");
-            if (i % 100 == 0) { System.out.println(""); System.out.print(i + " "); }
+            userinteraction.outputForUser(".");
+            if (i % 10 == 0) userinteraction.outputForUser(" ");
+            if (i % 100 == 0) { logger.debug(""); userinteraction.outputForUser(i + " "); }
             i++;
         }
         testInput.close();
         testOutput.close();
-        System.out.println("");
+        userinteraction.outputForUserWithNewline("");
     }
     public static void testAB (Bot bot, String sampleFile) {
         MagicBooleans.trace_mode = true;
         AB ab = new AB(bot, sampleFile);
         ab.ab();
-        System.out.println("Begin Pattern Suggestor Terminal Interaction");
+        logger.debug("Begin Pattern Suggestor Terminal Interaction");
         ab.terminalInteraction();
     }
 
@@ -134,10 +144,10 @@ public class TestAB {
             //Read File Line By Line
             int count = 0;
             while ((strLine = br.readLine()) != null && count++ < limit) {
-                System.out.println("Human: " + strLine);
+                userinteraction.outputForUserWithNewline("Human: " + strLine);
 
                 String response = chatSession.multisentenceRespond(strLine);
-                System.out.println("Robot: " + response);
+                userinteraction.outputForUserWithNewline("Robot: " + response);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

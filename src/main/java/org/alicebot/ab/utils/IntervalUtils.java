@@ -1,5 +1,8 @@
 package org.alicebot.ab.utils;
 
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
+
 import org.joda.time.Days;
 import org.joda.time.Hours;
 import org.joda.time.Months;
@@ -12,16 +15,17 @@ import org.joda.time.format.DateTimeFormatter;
 public class IntervalUtils {
 
     public static void test () {
+        UserInteraction userinteraction = new CommandLineInteraction();
         String date1 = "23:59:59.00";
         String date2 = "12:00:00.00";
         String format = "HH:mm:ss.SS";
         int hours = getHoursBetween(date2, date1, format);
-        System.out.println("Hours = "+hours);
+        userinteraction.outputForUserWithNewline("Hours = "+hours);
         date1 = "January 30, 2013";
         date2 = "August 2, 1960";
         format = "MMMMMMMMM dd, yyyy";
         int years = getYearsBetween(date2, date1, format);
-        System.out.println("Years = "+years);
+        userinteraction.outputForUserWithNewline("Years = "+years);
     }
     // http://docs.oracle.com/javase/1.4.2/docs/api/java/text/SimpleDateFormat.html
     public static int getHoursBetween(final String date1, final String date2, String format){

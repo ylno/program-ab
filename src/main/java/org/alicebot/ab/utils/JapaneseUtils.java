@@ -5,12 +5,15 @@ import org.alicebot.ab.MagicBooleans;
 import org.alicebot.ab.MagicStrings;
 import org.alicebot.ab.utils.mock.Morpheme;
 import org.alicebot.ab.utils.mock.Tagger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 
 public class JapaneseUtils {
+    private static final Logger logger = LoggerFactory.getLogger(JapaneseUtils.class);
 
     /**
      * Tokenize a fragment of the input that contains only text
@@ -19,12 +22,12 @@ public class JapaneseUtils {
      * @return  tokenized fragment
      */
     public static String tokenizeFragment(String fragment) {
-        //System.out.println("buildFragment "+fragment);
+        //logger.debug("buildFragment "+fragment);
         String result = "";
         for(Morpheme e : Tagger.parse(fragment)) {
             result += e.surface+" ";
             //
-            // System.out.println("Feature "+e.feature+" Surface="+e.surface);
+            // logger.debug("Feature "+e.feature+" Surface="+e.surface);
         }
         return result.trim();
     }
@@ -36,7 +39,7 @@ public class JapaneseUtils {
      * @return       morphed sentence with one space between words, preserving XML markup and AIML $ operation
      */
     public static String tokenizeSentence(String sentence) {
-        //System.out.println("tokenizeSentence "+sentence);
+        //logger.debug("tokenizeSentence "+sentence);
         if (!MagicBooleans.jp_tokenize) return sentence;
         String result = "";
         result = tokenizeXML(sentence);
@@ -44,12 +47,12 @@ public class JapaneseUtils {
         while (result.contains("  ")) result = result.replace("  "," ");
         while (result.contains("anon ")) result = result.replace("anon ", "anon"); // for Triple Store
         result = result.trim();
-        //if (MagicBooleans.trace_mode) System.out.println("tokenizeSentence '"+sentence+"'-->'"+result+"'");
+        //if (MagicBooleans.trace_mode) logger.debug("tokenizeSentence '"+sentence+"'-->'"+result+"'");
         return result;
     }
 
     public static String tokenizeXML(String xmlExpression) {
-        //System.out.println("tokenizeXML "+xmlExpression);
+        //logger.debug("tokenizeXML "+xmlExpression);
         String response = MagicStrings.template_failed;
         try {
             xmlExpression = "<sentence>"+xmlExpression+"</sentence>";
@@ -64,7 +67,7 @@ public class JapaneseUtils {
         try {
 
             String nodeName = node.getNodeName();
-            //System.out.println("recursEval "+nodeName);
+            //logger.debug("recursEval "+nodeName);
             if (nodeName.equals("#text")) return tokenizeFragment(node.getNodeValue());
             else if (nodeName.equals("sentence")) return evalTagContent(node);
             else return (genericXML(node));
@@ -75,13 +78,13 @@ public class JapaneseUtils {
         return "JP Morph Error";
     }
     public static String genericXML(Node node) {
-        //System.out.println("genericXML "+node.getNodeName());
+        //logger.debug("genericXML "+node.getNodeName());
         String result = evalTagContent(node);
         return unevaluatedXML(result, node);
     }
     public static String evalTagContent(Node node) {
         String result = "";
-        //System.out.println("evalTagContent "+node.getNodeName());
+        //logger.debug("evalTagContent "+node.getNodeName());
         try {
             NodeList childList = node.getChildNodes();
             for (int i = 0; i < childList.getLength(); i++) {
@@ -89,7 +92,7 @@ public class JapaneseUtils {
                 result += recursEval(child);
             }
         } catch (Exception ex) {
-            System.out.println("Something went wrong with evalTagContent");
+            logger.debug("Something went wrong with evalTagContent");
             ex.printStackTrace();
         }
         return result;

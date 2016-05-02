@@ -9,14 +9,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import java.nio.charset.Charset;
-
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
 
 
 public class IOUtils {
 
+	private static UserInteraction userinteraction = new CommandLineInteraction();
 
 	BufferedReader reader;
 	BufferedWriter writer;
@@ -68,7 +70,7 @@ public class IOUtils {
 
 
 	public static void writeOutputTextLine(String prompt, String text) {
-		System.out.println(prompt + ": " + text);
+		userinteraction.outputForUserWithNewline(prompt + ": " + text);
 	}
 
 
@@ -79,7 +81,7 @@ public class IOUtils {
 
 	public static String readInputTextLine(String prompt) {
 		if (prompt != null) {
-			System.out.print(prompt + ": ");
+			userinteraction.outputForUser(prompt + ": ");
 		}
         BufferedReader lineOfText = new BufferedReader(new InputStreamReader(System.in));
 		String textLine = null;
@@ -99,7 +101,7 @@ public class IOUtils {
 
 	public static String system(String evaluatedContents, String failedString) {
 		Runtime rt = Runtime.getRuntime();
-        //System.out.println("System "+evaluatedContents);
+        //logger.debug("System "+evaluatedContents);
         try {
             Process p = rt.exec(evaluatedContents);
             InputStream istrm = p.getInputStream();
@@ -110,7 +112,7 @@ public class IOUtils {
             while ((data = buffrdr.readLine()) != null) {
                 result += data+"\n";
             }
-            //System.out.println("Result = "+result);
+            //logger.debug("Result = "+result);
             return result;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -121,7 +123,7 @@ public class IOUtils {
 
 	
 	public static String evalScript(String engineName, String script) throws Exception {
-        //System.out.println("evaluating "+script);
+        //logger.debug("evaluating "+script);
         ScriptEngineManager mgr = new ScriptEngineManager();
         ScriptEngine engine = mgr.getEngineByName("JavaScript");
 		String result = ""+engine.eval(script);

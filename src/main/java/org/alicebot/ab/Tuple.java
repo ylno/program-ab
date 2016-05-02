@@ -1,11 +1,16 @@
 package org.alicebot.ab;
 
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Tuple extends HashMap<String, String> {
+
+    private static final Logger logger = LoggerFactory.getLogger(Tuple.class);
+
     public static int index = 0;
     public static HashMap<String, Tuple> tupleMap = new HashMap<String, Tuple>();
     public HashSet<String> visibleVars = new HashSet<String>();
@@ -13,14 +18,14 @@ public class Tuple extends HashMap<String, String> {
 
     @Override
     public boolean equals(Object o) {
-        //System.out.println("Calling equals");
+        //logger.debug("Calling equals");
         //if (this == o) return true;
         /*if (o == null || getClass() != o.getClass()) {
-            System.out.println("unequal 1");
+            logger.debug("unequal 1");
             return false;
         }
         if (!super.equals(o)) {
-            System.out.println("unequal 2");
+            logger.debug("unequal 2");
             return false;
         }
 */
@@ -28,32 +33,32 @@ public class Tuple extends HashMap<String, String> {
 
         // if (!visibleVars.equals(tuple.visibleVars)) return false;
         if (visibleVars.size() != tuple.visibleVars.size()) {
-            //System.out.println("Tuple: "+name+"!="+tuple.name+" because size "+visibleVars.size()+"!="+tuple.visibleVars.size());
+            //logger.debug("Tuple: "+name+"!="+tuple.name+" because size "+visibleVars.size()+"!="+tuple.visibleVars.size());
             return false;
         }
-        //System.out.println("Tuple visibleVars = "+visibleVars+" tuple.visibleVars = "+tuple.visibleVars);
+        //logger.debug("Tuple visibleVars = "+visibleVars+" tuple.visibleVars = "+tuple.visibleVars);
         for (String x : visibleVars) {
-            //System.out.println("Tuple: get("+x+")="+get(x)+"tuple.get("+x+")="+tuple.get(x));
+            //logger.debug("Tuple: get("+x+")="+get(x)+"tuple.get("+x+")="+tuple.get(x));
             if (!tuple.visibleVars.contains(x)) {
-                //System.out.println("Tuple: "+name+"!="+tuple.name+" because !tuple.visibleVars.contains("+x+")");
+                //logger.debug("Tuple: "+name+"!="+tuple.name+" because !tuple.visibleVars.contains("+x+")");
                 return false;
             }
             else if (get(x) != null && !get(x).equals(tuple.get(x))) {
-                //System.out.println("Tuple: "+name+"!="+tuple.name+" because get("+x+")="+get(x)+" and tuple.get("+x+")="+tuple.get(x));
+                //logger.debug("Tuple: "+name+"!="+tuple.name+" because get("+x+")="+get(x)+" and tuple.get("+x+")="+tuple.get(x));
                 return false;
             }
         }
-        //System.out.println("Tuple: values = "+values());
-        //System.out.println("Tuple: tuple.values = "+tuple.values());
+        //logger.debug("Tuple: values = "+values());
+        //logger.debug("Tuple: tuple.values = "+tuple.values());
         if (values().contains(MagicStrings.unbound_variable)) return false;
         if (tuple.values().contains(MagicStrings.unbound_variable)) return false;
-        //System.out.println("Tuple: "+name+"="+tuple.name);
+        //logger.debug("Tuple: "+name+"="+tuple.name);
         return true;
     }
 
     @Override
     public int hashCode() {
-        //System.out.println("Calling hashCode");
+        //logger.debug("Calling hashCode");
         int result = 1;
         for (String x : visibleVars) {
             result = 31 * result + x.hashCode();
@@ -67,8 +72,8 @@ public class Tuple extends HashMap<String, String> {
 
     public Tuple (HashSet<String> varSet, HashSet<String> visibleVars, Tuple tuple) {
         super();
-        //System.out.println("varSet="+varSet);
-        //System.out.println("visbileVars="+visibleVars);
+        //logger.debug("varSet="+varSet);
+        //logger.debug("visbileVars="+visibleVars);
         if (visibleVars != null) this.visibleVars.addAll(visibleVars);
         if (varSet == null && tuple != null) {
             for (String key : tuple.keySet()) put(key, tuple.get(key));
@@ -108,7 +113,7 @@ public class Tuple extends HashMap<String, String> {
 
     public void bind(String var, String value) {
         if (get(var) != null && !get(var).equals(MagicStrings.unbound_variable))
-            System.out.println(var+" already bound to "+get(var));
+            logger.debug(var+" already bound to "+get(var));
         else put(var, value);
 
     }

@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
+
 public class Verbs {
     static Set<String> es = Utilities.stringSet("sh","ch","th","ss","x");
     static Set<String> ies = Utilities.stringSet("ly","ry","ny","fy","dy","py");
@@ -17,6 +20,9 @@ public class Verbs {
     public static HashMap<String, String> be2is = new HashMap<String, String>();
     public static HashMap<String, String> be2being = new HashMap<String, String>();
     public static HashSet<String> allVerbs = new HashSet<String>();
+
+    private static UserInteraction userinteraction = new CommandLineInteraction();
+
     public static String endsWith(String verb, Set<String> endings) {
        for (String x : endings) { if (verb.endsWith(x)) return x;}
        return null;
@@ -115,7 +121,7 @@ public class Verbs {
             String wasForm = was(verb);
             String beenForm = been(verb);
             String beingForm = being(verb);
-            System.out.println(verb+","+isForm+","+wasForm+","+beingForm+","+beenForm);
+            userinteraction.outputForUserWithNewline(verb+","+isForm+","+wasForm+","+beingForm+","+beenForm);
             be.add(beForm);
             is.add(isForm);
             was.add(wasForm);
