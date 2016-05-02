@@ -19,16 +19,37 @@
         Boston, MA  02110-1301, USA.
 */
 
-import org.alicebot.ab.*;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
+
+import org.alicebot.ab.AB;
+import org.alicebot.ab.AIMLProcessor;
+import org.alicebot.ab.Bot;
+import org.alicebot.ab.Category;
+import org.alicebot.ab.Chat;
+import org.alicebot.ab.ChatTest;
+import org.alicebot.ab.Graphmaster;
+import org.alicebot.ab.MagicBooleans;
+import org.alicebot.ab.MagicNumbers;
+import org.alicebot.ab.MagicStrings;
+import org.alicebot.ab.Nodemapper;
+import org.alicebot.ab.PCAIMLProcessorExtension;
+import org.alicebot.ab.TestAB;
+import org.alicebot.ab.Verbs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class Main {
 
-    public static void main (String[] args) {
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
+    public static void main (String[] args) {
+        logger.debug("main starting");
 
 
         MagicStrings.setRootPath();
