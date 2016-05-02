@@ -13,12 +13,12 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.tempor;
+import net.seibertmedia.chatbot.UserInteraction;
 
 
 public class IOUtils {
 
-  private static tempor userinteraction = new CommandLineInteraction();
+  private static UserInteraction userinteraction = new CommandLineInteraction();
 
 	BufferedReader reader;
 	BufferedWriter writer;

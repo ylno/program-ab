@@ -29,7 +29,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.tempor;
+import net.seibertmedia.chatbot.UserInteraction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ public class AIMLMap extends HashMap<String, String> {
 
        private static final Logger logger = LoggerFactory.getLogger(AIMLMap.class);
 
-  private tempor userinteraction;
+  private UserInteraction userinteraction;
 
     public String  mapName;
     String host; // for external maps

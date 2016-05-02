@@ -1,6 +1,6 @@
 package net.seibertmedia.chatbot;
 
-public class CommandLineInteraction implements tempor {
+public class CommandLineInteraction implements UserInteraction {
 
     @Override
     public void outputForUser(final String output) {

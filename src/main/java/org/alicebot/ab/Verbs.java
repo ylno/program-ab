@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.tempor;
+import net.seibertmedia.chatbot.UserInteraction;
 
 public class Verbs {
     static Set<String> es = Utilities.stringSet("sh","ch","th","ss","x");
@@ -21,7 +21,7 @@ public class Verbs {
     public static HashMap<String, String> be2being = new HashMap<String, String>();
     public static HashSet<String> allVerbs = new HashSet<String>();
 
-  private static tempor userinteraction = new CommandLineInteraction();
+  private static UserInteraction userinteraction = new CommandLineInteraction();
 
     public static String endsWith(String verb, Set<String> endings) {
        for (String x : endings) { if (verb.endsWith(x)) return x;}

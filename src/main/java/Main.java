@@ -27,7 +27,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.tempor;
+import net.seibertmedia.chatbot.UserInteraction;
 
 import org.alicebot.ab.AB;
 import org.alicebot.ab.AIMLProcessor;
@@ -51,7 +51,7 @@ public class Main {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-  private static final tempor userinteraction = new CommandLineInteraction();
+  private static final UserInteraction userinteraction = new CommandLineInteraction();
 
     public static void main (String[] args) {
         logger.debug("main starting");

@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.tempor;
+import net.seibertmedia.chatbot.UserInteraction;
 
 import org.alicebot.ab.utils.IOUtils;
 import org.alicebot.ab.utils.JapaneseUtils;
@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 public class Chat {
     private static final Logger logger = LoggerFactory.getLogger(Chat.class);
 
-  tempor userInteraction;
+  UserInteraction userInteraction;
 
     public Bot bot;
     public boolean doWrites;

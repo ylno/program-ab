@@ -25,11 +25,11 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.tempor;
+import net.seibertmedia.chatbot.UserInteraction;
 
 public class NodemapperOperator {
 
-  private static tempor userinteraction = new CommandLineInteraction();
+  private static UserInteraction userinteraction = new CommandLineInteraction();
 
     /**
      * number of branches from node

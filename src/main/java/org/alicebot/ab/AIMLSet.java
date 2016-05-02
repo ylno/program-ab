@@ -31,7 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.tempor;
+import net.seibertmedia.chatbot.UserInteraction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public class AIMLSet extends HashSet<String> {
 
     private static final Logger logger = LoggerFactory.getLogger(AIMLSet.class);
 
-  private tempor userinteraction;
+  private UserInteraction userinteraction;
 
     public String setName;
     int maxLength = 1; // there are no empty sets
