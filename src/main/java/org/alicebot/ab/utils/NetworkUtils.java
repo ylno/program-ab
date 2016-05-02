@@ -47,7 +47,9 @@ public class NetworkUtils {
 
 	public static String responseContent(String url) throws Exception {
 		HttpClient client = new DefaultHttpClient();
+
 		HttpGet request = new HttpGet();
+
 		request.setURI(new URI(url));
 		InputStream is = client.execute(request).getEntity().getContent();
 		BufferedReader inb = new BufferedReader(new InputStreamReader(is));

@@ -1,6 +1,7 @@
 package org.alicebot.ab;
 
 import junit.framework.TestCase;
+
 import org.junit.Test;
 // http://stackoverflow.com/questions/4757800/configuring-intellij-idea-for-unit-testing-with-junit
 /**
