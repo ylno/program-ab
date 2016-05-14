@@ -436,7 +436,9 @@ public class AB {
                botThinks = "<think><set name=\""+p+"\"><set name=\"topic\"><star/></set></set></think>";
            }
        }
-       if (textLine.equals("q")) System.exit(0);       // Quit program
+    if (textLine.equals("q")) {
+      // System.exit(0); // Quit program
+    }
        else if (textLine.equals("wq")) {   // Write AIML Files and quit program
            bot.writeQuit();
          /*  Nodemapper udcNode = bot.brain.findNode("*", "*", "*");
@@ -465,7 +467,7 @@ public class AB {
                testSet.writeAIMLSet();
                logger.debug("Wrote passed test cases");
            }*/
-           System.exit(0);
+      // System.exit(0);
        }
        else if (textLine.equals("skip") || textLine.equals("")) { // skip this one for now
            skipCategory(c);

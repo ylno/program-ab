@@ -57,7 +57,7 @@ public class Main {
         logger.debug("main starting");
 
 
-        MagicStrings.setRootPath();
+    // MagicStrings.setRootPath();
 
         AIMLProcessor.extension =  new PCAIMLProcessorExtension();
         mainFunction(args);
@@ -87,11 +87,16 @@ public class Main {
                         MagicBooleans.jp_tokenize = false;
                     }
                 }
+        if (option.equals("rootpath")) {
+          MagicStrings.setRootPath(value);
+        }
              }
         }
         if (MagicBooleans.trace_mode) logger.debug("Working Directory = " + MagicStrings.root_path);
         Graphmaster.enableShortCuts = true;
         //Timer timer = new Timer();
+
+    logger.debug("Botinit " + botName + " " + " " + MagicStrings.root_path + " " + action);
         Bot bot = new Bot(botName, MagicStrings.root_path, action); //
         //EnglishNumberToWords.makeSetMap(bot);
         //getGloss(bot, "c:/ab/data/wn30-lfs/wne-2006-12-06.xml");

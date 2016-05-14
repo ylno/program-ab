@@ -144,9 +144,9 @@ public class Bot {
         preProcessor = new PreProcessor(this);
         addProperties();
         cnt = addAIMLSets();
-        if (MagicBooleans.trace_mode) logger.debug("Loaded "+cnt+" set elements.");
+    logger.debug("Loaded " + cnt + " set elements.");
         cnt = addAIMLMaps();
-        if (MagicBooleans.trace_mode) logger.debug("Loaded "+cnt+" map elements");
+    logger.debug("Loaded " + cnt + " map elements");
         this.pronounSet = getPronouns();
         AIMLSet number = new AIMLSet(MagicStrings.natural_number_set_name, this);
         setMap.put(MagicStrings.natural_number_set_name, number);
@@ -594,6 +594,15 @@ public class Bot {
                             AIMLSet aimlSet = new AIMLSet(setName, this);
                             cnt += aimlSet.readAIMLSet(this);
                             setMap.put(setName, aimlSet);
+            } else if (file.endsWith(".set") || file.endsWith(".SET")) {
+              if (MagicBooleans.trace_mode)
+                logger.debug(file);
+              String setName = file.substring(0, file.length() - ".set".length());
+              if (MagicBooleans.trace_mode)
+                logger.debug("Read AIML Set " + setName);
+              AIMLSet aimlSet = new AIMLSet(setName, this);
+              cnt += aimlSet.readAIMLSetJson(this);
+              setMap.put(setName, aimlSet);
                         }
                     }
                 }
@@ -628,6 +637,13 @@ public class Bot {
                             if (MagicBooleans.trace_mode) logger.debug("Read AIML Map "+mapName);
                             AIMLMap aimlMap = new AIMLMap(mapName, this);
                             cnt += aimlMap.readAIMLMap(this);
+              mapMap.put(mapName, aimlMap);
+            } else if (file.endsWith(".map") || file.endsWith(".map")) {
+              logger.debug(file);
+              String mapName = file.substring(0, file.length() - ".map".length());
+              logger.debug("Read AIML Map " + mapName);
+              AIMLMap aimlMap = new AIMLMap(mapName, this);
+              cnt += aimlMap.readAIMLMapJson(this);
                             mapMap.put(mapName, aimlMap);
                         }
                     }

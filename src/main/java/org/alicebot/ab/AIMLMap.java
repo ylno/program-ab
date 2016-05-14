@@ -31,6 +31,7 @@ import java.util.HashMap;
 import net.seibertmedia.chatbot.CommandLineInteraction;
 import net.seibertmedia.chatbot.UserInteraction;
 
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -199,5 +200,56 @@ public class AIMLMap extends HashMap<String, String> {
         return cnt;
 
     }
+
+  public int readAIMLMapJson(Bot bot) {
+    int cnt = 0;
+    if (MagicBooleans.trace_mode)
+      logger.debug("Reading AIML Map " + bot.maps_path + "/" + mapName + ".map");
+    try {
+      // Open the file that is the first
+      // command line parameter
+      File file = new File(bot.maps_path + "/" + mapName + ".map");
+      if (file.exists()) {
+        FileInputStream fstream = new FileInputStream(bot.maps_path + "/" + mapName + ".map");
+        BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+        StringBuilder stringBuilder = new StringBuilder();
+        String strLine;
+        while ((strLine = br.readLine()) != null && strLine.length() > 0) {
+          stringBuilder.append(strLine);
+        }
+        fstream.close();
+
+        // Parse json
+        JSONArray json = new JSONArray(stringBuilder.toString());
+        logger.debug("json-array " + json);
+        int i = 0;
+        for (i = 0; i <= json.length(); i++) {
+          logger.debug("add {}", json.getString(i));
+          JSONArray jsonArray = json.getJSONArray(i);
+          String key = jsonArray.getString(0);
+          String value = jsonArray.getString(1);
+          this.put(key, value);
+          // this.add(json.getString(i));
+          // String key = splitLine[0].toUpperCase();
+          // String value = splitLine[1];
+        }
+
+        // Get the object
+        cnt = readAIMLMapFromInputStream(fstream, bot);
+        fstream.close();
+      }
+
+      // assume domain element is already normalized for speedier load
+      // key = bot.preProcessor.normalize(key).trim();
+      // put(key, value);
+
+      else
+        logger.debug(bot.maps_path + "/" + mapName + ".map not found");
+    } catch (Exception e) {// Catch exception if any
+      System.err.println("Error: " + e.getMessage());
+    }
+    return cnt;
+
+  }
 
 }

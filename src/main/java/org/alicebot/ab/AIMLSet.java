@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 import net.seibertmedia.chatbot.CommandLineInteraction;
 import net.seibertmedia.chatbot.UserInteraction;
 
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -121,7 +122,7 @@ public class AIMLSet extends HashSet<String> {
                         botid = splitLine[2];
                         maxLength = Integer.parseInt(splitLine[3]);
                         isExternal = true;
-                        userinteraction.outputForUserWithNewline("Created external set at "+host+" "+botid);
+            logger.debug("Created external set at " + host + " " + botid);
                     }
                 }
                 else {
@@ -153,6 +154,42 @@ public class AIMLSet extends HashSet<String> {
                 // Get the object
                 cnt = readAIMLSetFromInputStream(fstream, bot);
                 fstream.close();
+      } else
+        logger.debug(bot.sets_path + "/" + setName + ".txt not found");
+    } catch (Exception e) {// Catch exception if any
+      System.err.println("Error: " + e.getMessage());
+    }
+    return cnt;
+
+  }
+
+  public int readAIMLSetJson(Bot bot) {
+    int cnt = 0;
+    if (MagicBooleans.trace_mode)
+      logger.debug("Reading AIML Set " + bot.sets_path + "/" + setName + ".set");
+    try {
+      // Open the file that is the first
+      // command line parameter
+      File file = new File(bot.sets_path + "/" + setName + ".set");
+      if (file.exists()) {
+        FileInputStream fstream = new FileInputStream(bot.sets_path + "/" + setName + ".set");
+        BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+        StringBuilder stringBuilder = new StringBuilder();
+        String strLine;
+        while ((strLine = br.readLine()) != null && strLine.length() > 0) {
+          stringBuilder.append(strLine);
+        }
+        fstream.close();
+
+        // Parse json
+        JSONArray json = new JSONArray(stringBuilder.toString());
+        logger.trace("json-array " + json);
+        int i = 0;
+        for (i = 0; i < json.length(); i++) {
+          logger.trace("add {}", json.getString(i));
+          this.add(json.getString(i));
+        }
+
             }
             else logger.debug(bot.sets_path+"/"+setName+".txt not found");
         }catch (Exception e){//Catch exception if any
