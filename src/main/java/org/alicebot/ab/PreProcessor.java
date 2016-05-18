@@ -63,11 +63,11 @@ public class PreProcessor {
      */
     public PreProcessor (Bot bot) {
 
-        normalCount = readSubstitutions(bot.config_path+"/normal.txt", normalPatterns, normalSubs);
-        denormalCount = readSubstitutions(bot.config_path+"/denormal.txt", denormalPatterns, denormalSubs);
-        personCount = readSubstitutions(bot.config_path +"/person.txt", personPatterns, personSubs);
-        person2Count = readSubstitutions(bot.config_path +"/person2.txt", person2Patterns, person2Subs);
-        genderCount = readSubstitutions(bot.config_path +"/gender.txt", genderPatterns, genderSubs);
+    normalCount = readSubstitutions(bot.getConfig_path() + "/normal.txt", normalPatterns, normalSubs);
+    denormalCount = readSubstitutions(bot.getConfig_path() + "/denormal.txt", denormalPatterns, denormalSubs);
+    personCount = readSubstitutions(bot.getConfig_path() + "/person.txt", personPatterns, personSubs);
+    person2Count = readSubstitutions(bot.getConfig_path() + "/person2.txt", person2Patterns, person2Subs);
+    genderCount = readSubstitutions(bot.getConfig_path() + "/gender.txt", genderPatterns, genderSubs);
         if (MagicBooleans.trace_mode) logger.debug("Preprocessor: "+normalCount+" norms "+personCount+" persons "+person2Count+" person2 ");
     }
 

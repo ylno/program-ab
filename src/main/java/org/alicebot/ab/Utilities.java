@@ -112,7 +112,7 @@ public class Utilities {
         String year = CalendarUtils.year();
         String date = CalendarUtils.date();
         try {
-                copyright = getFile(bot.config_path+"/copyright.txt") ;
+      copyright = getFile(bot.getConfig_path() + "/copyright.txt");
                 String[] splitCopyright = copyright.split("\n");
                 copyright = "";
                 for (int i = 0; i < splitCopyright.length; i++) {
@@ -122,7 +122,7 @@ public class Utilities {
                 copyright = copyright.replace("[date]", date);
                 copyright = copyright.replace("[YYYY]", year);
       copyright = copyright.replace("[version]", bot.getProperties().get("version"));
-                copyright = copyright.replace("[botname]", bot.name.toUpperCase());
+      copyright = copyright.replace("[botname]", bot.getName().toUpperCase());
                 copyright = copyright.replace("[filename]", AIMLFilename);
       copyright = copyright.replace("[botmaster]", bot.getProperties().get("botmaster"));
       copyright = copyright.replace("[organization]", bot.getProperties().get("organization"));
@@ -135,12 +135,12 @@ public class Utilities {
     }
 
     public static String getPannousAPIKey (Bot bot) {
-       String apiKey = getFile(bot.config_path+"/pannous-apikey.txt");
+    String apiKey = getFile(bot.getConfig_path() + "/pannous-apikey.txt");
        if (apiKey.equals("")) apiKey = MagicStrings.pannous_api_key;
        return apiKey;
     }
     public static String getPannousLogin (Bot bot) {
-        String login = getFile(bot.config_path+"/pannous-login.txt");
+    String login = getFile(bot.getConfig_path() + "/pannous-login.txt");
         if (login.equals("")) login = MagicStrings.pannous_login;
         return login;
     }

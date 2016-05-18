@@ -23,7 +23,7 @@ public class TestAB {
 
     public static void testChat (Bot bot, boolean doWrites, boolean traceMode) {
         Chat chatSession = new Chat(bot, doWrites);
-        bot.brain.nodeStats();
+    bot.getBrain().nodeStats();
         MagicBooleans.trace_mode = traceMode;
         String textLine="";
         while (true) {
@@ -61,7 +61,7 @@ public class TestAB {
     }
     public static void testBotChat () {
         Bot bot = new Bot("alice");
-        logger.debug(bot.brain.upgradeCnt+" brain upgrades");
+    logger.debug(bot.getBrain().upgradeCnt + " brain upgrades");
 
         //bot.brain.printgraph();
         Chat chatSession = new Chat(bot);
@@ -75,7 +75,7 @@ public class TestAB {
         MagicBooleans.qa_test_mode = true;
         Chat chatSession = new Chat(bot, false);
         //        bot.preProcessor.normalizeFile("c:/ab/bots/super/aiml/thats.txt", "c:/ab/bots/super/aiml/normalthats.txt");
-        bot.brain.nodeStats();
+    bot.getBrain().nodeStats();
         MagicBooleans.trace_mode = traceMode;
         IOUtils testInput = new IOUtils(MagicStrings.root_path + "/data/lognormal-500.txt", "read");
         //IOUtils testInput = new IOUtils(MagicStrings.root_path + "/data/callmom-inputs.txt", "read");

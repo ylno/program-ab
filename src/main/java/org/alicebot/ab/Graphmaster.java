@@ -128,13 +128,13 @@ public class Graphmaster {
         //logger.debug("adding Set "+type+" from "+bot.setMap);
         String setName = Utilities.tagTrim(type, "SET").toLowerCase();
         //AIMLSet aimlSet;
-        if (bot.setMap.containsKey(setName)) {
+    if (bot.getSetMap().containsKey(setName)) {
             if (node.sets == null) node.sets = new ArrayList<String>();
             if (!node.sets.contains(setName)) node.sets.add(setName);
             //logger.debug("sets = "+node.sets);
         }
         else {
-            logger.debug("No AIML Set found for <set>"+setName+"</set> in "+bot.name+" "+filename);
+      logger.debug("No AIML Set found for <set>" + setName + "</set> in " + bot.getName() + " " + filename);
         }
     }
     /**
@@ -529,7 +529,7 @@ public class Graphmaster {
         for (String setName : node.sets) {
             if (DEBUG) logger.debug("in Graphmaster.setMatch, setMatch trying type "+setName);
             Nodemapper nextNode = NodemapperOperator.get(node, "<SET>"+setName.toUpperCase()+"</SET>");
-            AIMLSet aimlSet = bot.setMap.get(setName);
+      AIMLSet aimlSet = bot.getSetMap().get(setName);
             //logger.debug(aimlSet.setName + "="+ aimlSet);
             Nodemapper matchedNode;
             Nodemapper bestMatchedNode = null;
@@ -660,7 +660,9 @@ public class Graphmaster {
         shortCutCnt = 0;
         naryCnt = 0;
         nodeStatsGraph(root);
-        resultNote = bot.name+" ("+name+"): "+getCategories().size()+" categories "+nodeCnt+" nodes "+singletonCnt+" singletons "+leafCnt+" leaves "+shortCutCnt+" shortcuts "+naryCnt+" n-ary "+nodeSize+" branches "+(float)nodeSize/(float)nodeCnt+" average branching ";
+    resultNote = bot.getName() + " (" + name + "): " + getCategories().size() + " categories " + nodeCnt + " nodes " + singletonCnt
+        + " singletons " + leafCnt + " leaves " + shortCutCnt + " shortcuts " + naryCnt + " n-ary " + nodeSize + " branches "
+        + (float) nodeSize / (float) nodeCnt + " average branching ";
         if (MagicBooleans.trace_mode) logger.debug(resultNote);
     }
     public void nodeStatsGraph(Nodemapper node) {
@@ -683,7 +685,8 @@ public class Graphmaster {
     public HashSet<String> getVocabulary () {
         vocabulary = new HashSet<String>();
         getBrainVocabulary(root);
-        for (String set : bot.setMap.keySet()) vocabulary.addAll(bot.setMap.get(set));
+    for (String set : bot.getSetMap().keySet())
+      vocabulary.addAll(bot.getSetMap().get(set));
         return vocabulary;
     }
     public void getBrainVocabulary(Nodemapper node) {

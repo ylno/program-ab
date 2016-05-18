@@ -145,7 +145,8 @@ public class Chat {
         addTriples();
         predicates.put("topic", MagicStrings.default_topic);
         predicates.put("jsenabled", MagicStrings.js_enabled);
-        if (MagicBooleans.trace_mode) logger.debug("Chat Session Created for bot "+bot.name);
+    if (MagicBooleans.trace_mode)
+      logger.debug("Chat Session Created for bot " + bot.getName());
     }
 
     /**
@@ -153,7 +154,7 @@ public class Chat {
      */
     void addPredicates() {
         try {
-            predicates.getPredicateDefaults(bot.config_path+"/predicates.txt") ;
+      predicates.getPredicateDefaults(bot.getConfig_path() + "/predicates.txt");
         } catch (Exception ex)  {
             ex.printStackTrace();
         }
@@ -164,8 +165,9 @@ public class Chat {
 
     int addTriples() {
         int tripleCnt = 0;
-        if (MagicBooleans.trace_mode) logger.debug("Loading Triples from "+bot.config_path+"/triples.txt");
-        File f = new File(bot.config_path+"/triples.txt");
+    if (MagicBooleans.trace_mode)
+      logger.debug("Loading Triples from " + bot.getConfig_path() + "/triples.txt");
+    File f = new File(bot.getConfig_path() + "/triples.txt");
         if (f.exists())
         try {
             InputStream is = new FileInputStream(f);
@@ -196,13 +198,13 @@ public class Chat {
      */
     public void chat () {
         BufferedWriter bw = null;
-        String logFile = bot.log_path+"/log_"+customerId+".txt";
+    String logFile = bot.getLog_path() + "/log_" + customerId + ".txt";
         try {
             //Construct the bw object
             bw = new BufferedWriter(new FileWriter(logFile, true)) ;
             String request="SET PREDICATES";
             String response = multisentenceRespond(request);
-            while (!request.equals("quit")) {
+      while (true) {
                 userInteraction.outputForUser("Human: ");
 				request = IOUtils.readInputTextLine();
                 response = multisentenceRespond(request);
@@ -213,7 +215,7 @@ public class Chat {
                 bw.newLine();
                 bw.flush();
             }
-            bw.close();
+      // bw.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

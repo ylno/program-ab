@@ -204,7 +204,7 @@ public class AIMLProcessor {
         sraiCount = srCnt;
         response = MagicStrings.default_bot_response;
          try {
-      Nodemapper leaf = chatSession.getBot().brain.match(input, that, topic);
+      Nodemapper leaf = chatSession.getBot().getBrain().match(input, that, topic);
             if (leaf == null) {return(response);}
             ParseState ps = new ParseState(0, chatSession, input, that, topic, leaf);
             //chatSession.matchTrace += leaf.category.getTemplate()+"\n";
@@ -359,7 +359,7 @@ public class AIMLProcessor {
                 logger.debug(trace_count+". <srai>"+result+"</srai> from "+ps.leaf.category.inputThatTopic()+" topic="+topic+") ");
                 trace_count++;
             }
-      Nodemapper leaf = ps.chatSession.getBot().brain.match(result, ps.that, topic);
+      Nodemapper leaf = ps.chatSession.getBot().getBrain().match(result, ps.that, topic);
             if (leaf == null) {return(response);}
             //logger.debug("Srai returned "+leaf.category.inputThatTopic()+":"+leaf.category.getTemplate());
             response = evalTemplate(leaf.category.getTemplate(), new ParseState(ps.depth+1, ps.chatSession, ps.input, ps.that, topic, leaf));
@@ -444,7 +444,7 @@ public class AIMLProcessor {
         contents = contents.trim();
         if (mapName == null) result = "<map>"+contents+"</map>"; // this is an OOB map tag (no attribute)
         else {
-      AIMLMap map = ps.chatSession.getBot().mapMap.get(mapName);
+      AIMLMap map = ps.chatSession.getBot().getMapMap().get(mapName);
             if (map != null) result = map.get(contents.toUpperCase());
             //logger.debug("AIMLProcessor map "+contents+" "+result);
             if (result == null) result = MagicStrings.default_map;
@@ -477,7 +477,7 @@ public class AIMLProcessor {
 			ps.vars.put(varName, result);
 			MagicBooleans.trace("Set var "+varName+" to "+value+" in "+ps.leaf.category.inputThatTopic());
 		}
-    if (ps.chatSession.getBot().pronounSet.contains(predicateName)) {
+    if (ps.chatSession.getBot().getPronounSet().contains(predicateName)) {
 			result = predicateName;
 		}
 		//MagicBooleans.trace("in AIMLProcessor.set, returning: " + result);
@@ -661,7 +661,7 @@ public class AIMLProcessor {
      * @return         bot brain size
      */
     private static String size(Node node, ParseState ps) {
-    int size = ps.chatSession.getBot().brain.getCategories().size();
+    int size = ps.chatSession.getBot().getBrain().getCategories().size();
         return String.valueOf(size);
     }
     /**
@@ -674,7 +674,7 @@ public class AIMLProcessor {
      * @return         bot vocabulary size
      */
     private static String vocabulary(Node node, ParseState ps) {
-    int size = ps.chatSession.getBot().brain.getVocabulary().size();
+    int size = ps.chatSession.getBot().getBrain().getVocabulary().size();
         return String.valueOf(size);
     }
     /**
@@ -1000,14 +1000,14 @@ public class AIMLProcessor {
                 if (node.getNodeName().equals("learn")) {
                     //logger.debug("node is <learn>");
                     c = new Category(0, pattern, that, "*", template, MagicStrings.null_aiml_file);
-          ps.chatSession.getBot().learnGraph.addCategory(c);
+          ps.chatSession.getBot().getLearnGraph().addCategory(c);
                 }
                 else {// learnf
                     //logger.debug("node is <learnf>");
                     c = new Category(0, pattern, that, "*", template, MagicStrings.learnf_aiml_file);
-          ps.chatSession.getBot().learnfGraph.addCategory(c);
+          ps.chatSession.getBot().getLearnfGraph().addCategory(c);
                 }
-        ps.chatSession.getBot().brain.addCategory(c);
+        ps.chatSession.getBot().getBrain().addCategory(c);
         // ps.chatSession.getBot().brain.printgraph();
             }
         }

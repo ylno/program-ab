@@ -72,7 +72,7 @@ public class AB {
         this.inputGraph = new Graphmaster(bot, "input");
         this.deletedGraph = new Graphmaster(bot, "deleted");
         this.patternGraph = new Graphmaster(bot, "pattern");
-        for (Category c : bot.brain.getCategories()) patternGraph.addCategory(c);
+        for (Category c : bot.getBrain().getCategories()) patternGraph.addCategory(c);
         this.suggestedCategories = new ArrayList<Category>();
         passed = new AIMLSet("passed", bot);
         testSet = new AIMLSet("1000", bot);
@@ -114,7 +114,7 @@ public class AB {
         Category c = new Category(0, pattern, that, topic, template, filename);
 
         if (c.validate()) {
-            bot.brain.addCategory(c);
+            bot.getBrain().addCategory(c);
          // bot.categories.add(c);
             bot.writeAIMLIFFiles();
             runCompletedCnt++;
@@ -219,7 +219,7 @@ public class AB {
                     Category c = new Category(0, categoryPatternThatTopic,  MagicStrings.blank_template, MagicStrings.unknown_aiml_file);
                     //if (brain.existsCategory(c)) logger.debug(c.inputThatTopic()+" Exists");
                     //if (deleted.existsCategory(c)) logger.debug(c.inputThatTopic()+ " Deleted");
-                    if (!bot.brain.existsCategory(c) && !deletedGraph.existsCategory(c)/* && !unfinishedGraph.existsCategory(c)*/) {
+                    if (!bot.getBrain().existsCategory(c) && !deletedGraph.existsCategory(c)/* && !unfinishedGraph.existsCategory(c)*/) {
                         patternGraph.addCategory(c);
                         suggestedCategories.add(c);
                     }
@@ -235,7 +235,7 @@ public class AB {
                 Category c = new Category(0, partialPatternThatTopic+" * <THAT> * <TOPIC> *",  MagicStrings.blank_template, MagicStrings.unknown_aiml_file);
                 //if (brain.existsCategory(c)) logger.debug(c.inputThatTopic()+" Exists");
                 //if (deleted.existsCategory(c)) logger.debug(c.inputThatTopic()+ " Deleted");
-                if (!bot.brain.existsCategory(c) && !deletedGraph.existsCategory(c)/* && !unfinishedGraph.existsCategory(c)*/) {
+                if (!bot.getBrain().existsCategory(c) && !deletedGraph.existsCategory(c)/* && !unfinishedGraph.existsCategory(c)*/) {
                     patternGraph.addCategory(c);
                     suggestedCategories.add(c);
                 }
@@ -312,8 +312,8 @@ public class AB {
         MagicBooleans.enable_external_sets = false;
         if (offer_alice_responses) alice = new Bot("alice");
         Timer timer = new Timer();
-        bot.brain.nodeStats();
-        if (bot.brain.getCategories().size() < MagicNumbers.brain_print_size) bot.brain.printgraph();
+        bot.getBrain().nodeStats();
+        if (bot.getBrain().getCategories().size() < MagicNumbers.brain_print_size) bot.getBrain().printgraph();
         timer.start();
         logger.debug("Graphing inputs");
         graphInputs(logFile);
@@ -383,7 +383,7 @@ public class AB {
             logger.debug("["+c.getActivationCnt()+"] "+c.inputThatTopic());
             Nodemapper node;
                 if (offer_alice_responses) {
-                    node = alice.brain.findNode(c);
+                    node = alice.getBrain().findNode(c);
                     if (node != null) {
                         alicetemplate = node.category.getTemplate();
                         String displayAliceTemplate = alicetemplate;

@@ -26,9 +26,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
-import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
-
 import org.alicebot.ab.AB;
 import org.alicebot.ab.AIMLProcessor;
 import org.alicebot.ab.Bot;
@@ -45,6 +42,9 @@ import org.alicebot.ab.TestAB;
 import org.alicebot.ab.Verbs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
 
 
 public class Main {
@@ -103,7 +103,8 @@ public class Main {
         if (MagicBooleans.make_verbs_sets_maps) Verbs.makeVerbSetsMaps(bot);
         //bot.preProcessor.normalizeFile("c:/ab/data/log2.txt", "c:/ab/data/log2normal.txt");
         //System.exit(0);
-        if (bot.brain.getCategories().size() < MagicNumbers.brain_print_size) bot.brain.printgraph();
+    if (bot.getBrain().getCategories().size() < MagicNumbers.brain_print_size)
+      bot.getBrain().printgraph();
         if (MagicBooleans.trace_mode) logger.debug("Action = '"+action+"'");
         if (action.equals("chat") || action.equals("chat-app")) {
 			boolean doWrites = ! action.equals("chat-app");
@@ -193,7 +194,7 @@ public class Main {
                 }
             }
             Category d = new Category(0,"WNDEF *","*","*","unknown","wndefs"+filecnt+".aiml");
-            bot.brain.addCategory(d);
+      bot.getBrain().addCategory(d);
             for (String x : def.keySet()) {
                 word = x;
                 gloss = def.get(word)+".";
@@ -203,8 +204,9 @@ public class Main {
                 Category c = new Category(0,"WNDEF "+word,"*","*",gloss,"wndefs"+filecnt+".aiml");
                 userinteraction.outputForUserWithNewline(cnt+" "+filecnt+" "+c.inputThatTopic()+":"+c.getTemplate()+":"+c.getFilename());
                 Nodemapper node;
-                if ((node = bot.brain.findNode(c)) != null) node.category.setTemplate(node.category.getTemplate()+","+gloss);
-                bot.brain.addCategory(c);
+        if ((node = bot.getBrain().findNode(c)) != null)
+          node.category.setTemplate(node.category.getTemplate() + "," + gloss);
+        bot.getBrain().addCategory(c);
 
 
             }
