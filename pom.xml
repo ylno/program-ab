@@ -69,10 +69,12 @@
 						<goals>
 							<goal>java</goal>
 						</goals>
+
 					</execution>
 				</executions>
 				<configuration>
 					<mainClass>Main</mainClass>
+
 					<arguments>
 						<argument>bot=rosie</argument>
 						<argument>action=chat</argument>
@@ -80,6 +82,16 @@
 						<argument>trace=false</argument>
 						<argument>rootpath=../botimplementation/</argument>
 					</arguments>
+					<systemProperties>
+						<systemProperty>
+							<key>user.language</key>
+							<value>en</value>
+						</systemProperty>
+						<systemProperty>
+							<key>user.country</key>
+							<value>US</value>
+						</systemProperty>
+					</systemProperties>
 				</configuration>
 			</plugin>
 

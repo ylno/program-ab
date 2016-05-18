@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
 
 public class TripleStore {
     private static final Logger logger = LoggerFactory.getLogger(TripleStore.class);
@@ -29,7 +29,7 @@ public class TripleStore {
     public TripleStore(String name, Chat chatSession) {
         this.name = name;
         this.chatSession = chatSession;
-        this.bot = chatSession.bot;
+    this.bot = chatSession.getBot();
         userinteraction = new CommandLineInteraction();
     }
     public class Triple {

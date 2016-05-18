@@ -281,9 +281,9 @@ public class Graphmaster {
             ex.printStackTrace();
             n = null;
         }
-        if (MagicBooleans.trace_mode && Chat.matchTrace.length() < MagicNumbers.max_trace_length) {
+    if (MagicBooleans.trace_mode && Chat.getMatchTrace().length() < MagicNumbers.max_trace_length) {
             if (n != null) {
-				Chat.setMatchTrace(Chat.matchTrace + n.category.inputThatTopic()+"\n");
+        Chat.setMatchTrace(Chat.getMatchTrace() + n.category.inputThatTopic() + "\n");
 			}
         }
 		//MagicBooleans.trace("in graphmaster.match(), returning: " + n);

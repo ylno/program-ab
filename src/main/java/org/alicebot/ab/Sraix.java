@@ -25,15 +25,15 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
-
 import org.alicebot.ab.utils.CalendarUtils;
 import org.alicebot.ab.utils.NetworkUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
 
 
 public class Sraix {
@@ -149,8 +149,8 @@ public class Sraix {
             int offset = CalendarUtils.timeZoneOffset();
             //logger.debug("OFFSET = "+offset);
             String locationString = "";
-            if (chatSession.locationKnown) {
-                locationString = "&location="+chatSession.latitude+","+chatSession.longitude;
+      if (chatSession.getLocationKnown()) {
+        locationString = "&location=" + chatSession.getLatitude() + "," + chatSession.getLongitude();
             }
             // https://weannie.pannous.com/api?input=when+is+daylight+savings+time+in+the+us&locale=en_US&login=pandorabots&ip=169.254.178.212&botid=0&key=CKNgaaVLvNcLhDupiJ1R8vtPzHzWc8mhIQDFSYWj&exclude=Dialogues,ChatBot&out=json
             // exclude=Dialogues,ChatBot&out=json&clientFeatures=show-images,reminder,say&debug=true

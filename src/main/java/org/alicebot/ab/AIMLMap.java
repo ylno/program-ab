@@ -28,12 +28,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
-import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
-
 import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
 
    /**
     * implements AIML Map
@@ -106,7 +106,8 @@ public class AIMLMap extends HashMap<String, String> {
         }
         else value = super.get(key);
         if (value == null) value = MagicStrings.default_map;
-        //logger.debug("AIMLMap get "+key+"="+value);
+
+    logger.debug("AIMLMap map {} get " + key + "=" + value, mapName);
         return value;
     }
 

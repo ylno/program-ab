@@ -8,13 +8,13 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
-
 import org.alicebot.ab.utils.IOUtils;
 import org.alicebot.ab.utils.JapaneseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
 
 /* Program AB Reference AIML 2.0 implementation
         Copyright (C) 2013 ALICE A.I. Foundation
@@ -43,20 +43,77 @@ public class Chat {
 
   UserInteraction userInteraction;
 
-    public Bot bot;
-    public boolean doWrites;
-    public String customerId = MagicStrings.default_Customer_id;
-    public History<History> thatHistory= new History<History>("that");
-    public History<String> requestHistory=new History<String>("request");
-    public History<String> responseHistory=new History<String>("response");
+  private Bot bot;
+  private boolean doWrites;
+  private String customerId = MagicStrings.default_Customer_id;
+  private History<History> thatHistory = new History<History>("that");
+  private History<String> requestHistory = new History<String>("request");
+  private History<String> responseHistory = new History<String>("response");
    // public History<String> repetitionHistory = new History<String>("repetition");
-    public History<String> inputHistory=new History<String>("input");
-    public Predicates predicates = new Predicates();
-    public static String matchTrace = "";
-    public static boolean locationKnown = false;
-    public static String longitude;
-    public static String latitude;
-    public TripleStore tripleStore = new TripleStore("anon", this);
+  private History<String> inputHistory = new History<String>("input");
+
+  private Predicates predicates = new Predicates();
+  private static String matchTrace = "";
+  private static boolean locationKnown = false;
+  private static String longitude;
+  private static String latitude;
+  private TripleStore tripleStore = new TripleStore("anon", this);
+
+  public boolean getLocationKnown() {
+    return locationKnown;
+  }
+
+  public Bot getBot() {
+    return bot;
+  }
+
+  public boolean isDoWrites() {
+    return doWrites;
+  }
+
+  public String getCustomerId() {
+    return customerId;
+  }
+
+  public History<History> getThatHistory() {
+    return thatHistory;
+  }
+
+  public History<String> getRequestHistory() {
+    return requestHistory;
+  }
+
+  public History<String> getResponseHistory() {
+    return responseHistory;
+  }
+
+  public History<String> getInputHistory() {
+    return inputHistory;
+  }
+
+  public Predicates getPredicates() {
+    return predicates;
+  }
+
+  public static String getMatchTrace() {
+    return matchTrace;
+  }
+
+  public static boolean isLocationKnown() {
+    return locationKnown;
+  }
+
+  public static String getLongitude() {
+    return longitude;
+  }
+
+  public static String getLatitude() {
+    return latitude;
+  }
+
+  public TripleStore getTripleStore() {
+    return tripleStore;
+  }
 
     /**
      * Constructor  (defualt customer ID)

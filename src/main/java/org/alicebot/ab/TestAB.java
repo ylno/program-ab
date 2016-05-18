@@ -4,12 +4,12 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
-import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
-
 import org.alicebot.ab.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
 
 /**
  * Created by User on 5/13/2014.
@@ -47,7 +47,9 @@ public class TestAB {
             else if (textLine.equals("ab")) testAB(bot, sample_file);
             else {
                 String request = textLine;
-                if (MagicBooleans.trace_mode) logger.debug("STATE="+request+":THAT="+chatSession.thatHistory.get(0).get(0)+":TOPIC="+chatSession.predicates.get("topic"));
+        if (MagicBooleans.trace_mode)
+          logger.debug("STATE=" + request + ":THAT=" + chatSession.getThatHistory().get(0).get(0) + ":TOPIC="
+              + chatSession.getPredicates().get("topic"));
                 String response = chatSession.multisentenceRespond(request);
                 while (response.contains("&lt;")) response = response.replace("&lt;","<");
                 while (response.contains("&gt;")) response = response.replace("&gt;",">");
@@ -95,7 +97,9 @@ public class TestAB {
             else if (textLine.startsWith("#")) testOutput.writeLine(textLine);
             else {
                 String request = textLine;
-                if (MagicBooleans.trace_mode) logger.debug("STATE="+request+":THAT="+chatSession.thatHistory.get(0).get(0)+":TOPIC="+chatSession.predicates.get("topic"));
+        if (MagicBooleans.trace_mode)
+          logger.debug("STATE=" + request + ":THAT=" + chatSession.getThatHistory().get(0).get(0) + ":TOPIC="
+              + chatSession.getPredicates().get("topic"));
                 String response = chatSession.multisentenceRespond(request);
                 while (response.contains("&lt;")) response = response.replace("&lt;","<");
                 while (response.contains("&gt;")) response = response.replace("&gt;",">");
