@@ -118,14 +118,14 @@ public class Utilities {
                 for (int i = 0; i < splitCopyright.length; i++) {
                     copyright += "<!-- "+splitCopyright[i]+" -->\n";
                 }
-                copyright = copyright.replace("[url]", bot.properties.get("url"));
+      copyright = copyright.replace("[url]", bot.getProperties().get("url"));
                 copyright = copyright.replace("[date]", date);
                 copyright = copyright.replace("[YYYY]", year);
-                copyright = copyright.replace("[version]", bot.properties.get("version"));
+      copyright = copyright.replace("[version]", bot.getProperties().get("version"));
                 copyright = copyright.replace("[botname]", bot.name.toUpperCase());
                 copyright = copyright.replace("[filename]", AIMLFilename);
-                copyright = copyright.replace("[botmaster]", bot.properties.get("botmaster"));
-                copyright = copyright.replace("[organization]", bot.properties.get("organization"));
+      copyright = copyright.replace("[botmaster]", bot.getProperties().get("botmaster"));
+      copyright = copyright.replace("[organization]", bot.getProperties().get("organization"));
         } catch (Exception e){//Catch exception if any
             System.err.println("Error: " + e.getMessage());
         }

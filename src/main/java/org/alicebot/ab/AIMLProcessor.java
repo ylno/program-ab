@@ -352,7 +352,7 @@ public class AIMLProcessor {
             String result = evalTagContent(node, ps, null);
             result = result.trim();
             result = result.replaceAll("(\r\n|\n\r|\r|\n)", " ");
-      result = ps.chatSession.getBot().preProcessor.normalize(result);
+      result = ps.chatSession.getBot().getPreProcessor().normalize(result);
             result = JapaneseUtils.tokenizeSentence(result);
       String topic = ps.chatSession.getPredicates().get("topic"); // the that stays the same, but the topic may have changed
             if (MagicBooleans.trace_mode) {
@@ -533,7 +533,7 @@ public class AIMLProcessor {
         //HashSet<String> attributeNames = Utilities.stringSet("name");
         String propertyName = getAttributeOrTagValue(node, ps, "name");
         if (propertyName != null)
-      result = ps.chatSession.getBot().properties.get(propertyName).trim();
+      result = ps.chatSession.getBot().getProperties().get(propertyName).trim();
         //logger.debug("BOT: "+m.getNodeValue()+"="+result);
         return result;
     }
@@ -810,7 +810,7 @@ public class AIMLProcessor {
         //MagicBooleans.trace("AIMLPreprocessor.normalize(node: " + node + ", ps: " + ")");
         String result = evalTagContent(node, ps, null);
         //MagicBooleans.trace("in AIMLPreprocessor.normalize(), result: " + result);
-    String returning = ps.chatSession.getBot().preProcessor.normalize(result);
+    String returning = ps.chatSession.getBot().getPreProcessor().normalize(result);
 		//MagicBooleans.trace("in AIMLPreprocessor.normalize(), returning: " + returning);
         return returning;
     }
@@ -824,7 +824,7 @@ public class AIMLProcessor {
      */
     private static String denormalize(Node node, ParseState ps) {            // AIML 2.0
         String result = evalTagContent(node, ps, null);
-    return ps.chatSession.getBot().preProcessor.denormalize(result);
+    return ps.chatSession.getBot().getPreProcessor().denormalize(result);
     }
     /**
      * evaluate tag contents and return result in upper case
@@ -889,7 +889,7 @@ public class AIMLProcessor {
           result = evalTagContent(node, ps, null);
         else result = ps.starBindings.inputStars.star(0);   // for <person/>
         result = " "+result+" ";
-    result = ps.chatSession.getBot().preProcessor.person(result);
+    result = ps.chatSession.getBot().getPreProcessor().person(result);
         return result.trim();
     }
     /**
@@ -906,7 +906,7 @@ public class AIMLProcessor {
             result = evalTagContent(node, ps, null);
         else result = ps.starBindings.inputStars.star(0);   // for <person2/>
         result = " "+result+" ";
-    result = ps.chatSession.getBot().preProcessor.person2(result);
+    result = ps.chatSession.getBot().getPreProcessor().person2(result);
         return result.trim();
     }
     /**
@@ -920,7 +920,7 @@ public class AIMLProcessor {
     private static String gender(Node node, ParseState ps) {
         String result = evalTagContent(node, ps, null);
         result = " "+result+" ";
-    result = ps.chatSession.getBot().preProcessor.gender(result);
+    result = ps.chatSession.getBot().getPreProcessor().gender(result);
         return result.trim();
     }
 
@@ -1279,7 +1279,7 @@ public class AIMLProcessor {
     }
     public static String rest(Node node, ParseState ps) {
         String content = evalTagContent(node, ps, null);
-    content = ps.chatSession.getBot().preProcessor.normalize(content);
+    content = ps.chatSession.getBot().getPreProcessor().normalize(content);
         return restWords(content);
 
     }

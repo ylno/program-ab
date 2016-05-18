@@ -25,12 +25,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
-
 import org.alicebot.ab.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
 
 public class AB {
 
@@ -269,7 +269,7 @@ public class AB {
 
                 if (strLine != null) {
                     if (strLine.startsWith("Human: ")) strLine = strLine.substring("Human: ".length(), strLine.length());
-                    String sentences[] = bot.preProcessor.sentenceSplit(strLine);
+          String sentences[] = bot.getPreProcessor().sentenceSplit(strLine);
                     for (int i = 0; i < sentences.length; i++) {
                         String sentence = sentences[i];
                         if (sentence.length() > 0) {

@@ -91,7 +91,7 @@ public class Graphmaster {
             while (matcher.find()) {
                 String propname = matcher.group(1).toLowerCase();
                 //logger.debug(matcher.group(1));
-                String property = bot.properties.get(propname).toUpperCase();
+        String property = bot.getProperties().get(propname).toUpperCase();
                 pattern = pattern.replaceFirst("(?i)"+botPropRegex, property);
                 //logger.debug("addCategory: Replaced pattern with: "+inputThatTopic);
             }
@@ -465,7 +465,7 @@ public class Graphmaster {
         matchTrace += "["+wildcard+",]";
         if (path != null && NodemapperOperator.containsKey(node, wildcard)) {
             //logger.debug("Zero match calling setStars Prop "+MagicStrings.null_star+" = "+bot.properties.get(MagicStrings.null_star));
-            setStars(bot.properties.get(MagicStrings.null_star), starIndex, starState, inputStars, thatStars, topicStars);
+      setStars(bot.getProperties().get(MagicStrings.null_star), starIndex, starState, inputStars, thatStars, topicStars);
             Nodemapper nextNode = NodemapperOperator.get(node, wildcard);
             return match(path, nextNode, input, starState, starIndex+1, inputStars, thatStars, topicStars, matchTrace);
         }
@@ -540,7 +540,7 @@ public class Graphmaster {
             if (DEBUG) logger.debug("in Graphmaster.setMatch, setMatch starWords =\""+starWords+"\"");
             for (Path qath = path.next; qath != null &&  !currentWord.equals("<THAT>") && !currentWord.equals("<TOPIC>") && length <= aimlSet.maxLength; qath = qath.next) {
                 if (DEBUG) logger.debug("in Graphmaster.setMatch, qath.word = "+qath.word);
-                String phrase = bot.preProcessor.normalize(starWords.trim()).toUpperCase();
+        String phrase = bot.getPreProcessor().normalize(starWords.trim()).toUpperCase();
                 if (DEBUG) logger.debug("in Graphmaster.setMatch, setMatch trying \""+phrase+"\" in "+setName);
                 if (aimlSet.contains(phrase) && (matchedNode = match(qath, nextNode, input, starState, starIndex + 1, inputStars, thatStars, topicStars, matchTrace)) != null) {
                     setStars(starWords, starIndex, starState, inputStars, thatStars, topicStars);

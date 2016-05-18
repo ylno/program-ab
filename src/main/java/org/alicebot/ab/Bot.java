@@ -46,17 +46,17 @@ import org.slf4j.LoggerFactory;
 public class Bot {
     private static final Logger logger = LoggerFactory.getLogger(Bot.class);
 
-    public final Properties properties = new Properties();
-    public final PreProcessor preProcessor;
+  private final Properties properties = new Properties();
+
+  private final PreProcessor preProcessor;
+
     public final Graphmaster brain;
     public Graphmaster learnfGraph;
     public Graphmaster learnGraph;
-
-    // public Graphmaster unfinishedGraph;
-    //  public final ArrayList<Category> categories;
-
     public String name=MagicStrings.default_bot_name;
+
     public HashMap<String, AIMLSet> setMap = new HashMap<String, AIMLSet>();
+
     public HashMap<String, AIMLMap> mapMap = new HashMap<String, AIMLMap>();
     public HashSet<String> pronounSet = new HashSet<String>();
     public String root_path = "c:/ab";
@@ -96,6 +96,16 @@ public class Bot {
             logger.debug(maps_path);
         }
     }
+
+  // public Graphmaster unfinishedGraph;
+  public PreProcessor getPreProcessor() {
+    return preProcessor;
+  }
+
+  // public final ArrayList<Category> categories;
+  public Properties getProperties() {
+    return properties;
+  }
 
     /**
      * Constructor (default action, default path, default bot name)
