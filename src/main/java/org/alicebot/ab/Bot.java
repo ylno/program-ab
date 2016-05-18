@@ -127,6 +127,7 @@ public class Bot {
    *          name of bot
    */
   public void setAllPaths(String root, String name) {
+    root_path = root;
     bot_path = root + "/bots";
     bot_name_path = bot_path + "/" + name;
     if (MagicBooleans.trace_mode)
