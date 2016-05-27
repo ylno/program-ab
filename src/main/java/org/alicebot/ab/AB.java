@@ -194,7 +194,7 @@ public class AB {
      *
      */
     public void findPatterns() {
-        findPatterns(inputGraph.root, "");
+    findPatterns(inputGraph.getRoot(), "");
         logger.debug(leafPatternCnt+ " Leaf Patterns "+starPatternCnt+" Star Patterns");
     }
 

@@ -91,7 +91,7 @@ public class Main {
     }
     if (MagicBooleans.trace_mode)
       logger.debug("Working Directory = " + MagicStrings.root_path);
-    Graphmaster.enableShortCuts = true;
+    Graphmaster.enableShortCuts(true);
     // Timer timer = new Timer();
 
     logger.debug("Botinit " + botName + " " + " " + MagicStrings.root_path + " " + action);

@@ -22,14 +22,14 @@ package org.alicebot.ab;
 ParseState is a helper class for AIMLProcessor
  */
 public class ParseState {
-    public Nodemapper leaf;
-    public String input;
-    public String that;
-    public String topic;
-    public Chat chatSession;
-    public int depth;
-    public Predicates vars;
-    public StarBindings starBindings;
+  private Nodemapper leaf;
+  private String input;
+  private String that;
+  private String topic;
+  private Chat chatSession;
+  private int depth;
+  private Predicates vars;
+  private StarBindings starBindings;
 
      /**
       * Constructor - class has public members
@@ -51,4 +51,36 @@ public class ParseState {
         this.vars = new Predicates();
         this.starBindings = leaf.starBindings;
     }
+
+  public Nodemapper getLeaf() {
+    return leaf;
+  }
+
+  public String getInput() {
+    return input;
+  }
+
+  public String getThat() {
+    return that;
+  }
+
+  public String getTopic() {
+    return topic;
+  }
+
+  public Chat getChatSession() {
+    return chatSession;
+  }
+
+  public int getDepth() {
+    return depth;
+  }
+
+  public Predicates getVars() {
+    return vars;
+  }
+
+  public StarBindings getStarBindings() {
+    return starBindings;
+  }
 }

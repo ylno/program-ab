@@ -375,7 +375,7 @@ public class AIMLProcessor {
   private static String srai(Node node, ParseState ps) {
     // MagicBooleans.trace("AIMLProcessor.srai(node: " + node + ", ps: " + ps);
     sraiCount++;
-    if (sraiCount > MagicNumbers.max_recursion_count || ps.depth > MagicNumbers.max_recursion_depth) {
+    if (sraiCount > MagicNumbers.max_recursion_count || ps.getDepth() > MagicNumbers.max_recursion_depth) {
       return MagicStrings.too_much_recursion;
     }
     String response = MagicStrings.default_bot_response;
@@ -383,19 +383,21 @@ public class AIMLProcessor {
       String result = evalTagContent(node, ps, null);
       result = result.trim();
       result = result.replaceAll("(\r\n|\n\r|\r|\n)", " ");
-      result = ps.chatSession.getBot().getPreProcessor().normalize(result);
+      result = ps.getChatSession().getBot().getPreProcessor().normalize(result);
       result = JapaneseUtils.tokenizeSentence(result);
-      String topic = ps.chatSession.getPredicates().get("topic"); // the that stays the same, but the topic may have changed
+      String topic = ps.getChatSession().getPredicates().get("topic"); // the that stays the same, but the topic may have changed
       if (MagicBooleans.trace_mode) {
-        logger.debug(trace_count + ". <srai>" + result + "</srai> from " + ps.leaf.category.inputThatTopic() + " topic=" + topic + ") ");
+        logger
+            .debug(trace_count + ". <srai>" + result + "</srai> from " + ps.getLeaf().category.inputThatTopic() + " topic=" + topic + ") ");
         trace_count++;
       }
-      Nodemapper leaf = ps.chatSession.getBot().getBrain().match(result, ps.that, topic);
+      Nodemapper leaf = ps.getChatSession().getBot().getBrain().match(result, ps.getThat(), topic);
       if (leaf == null) {
         return (response);
       }
       // logger.debug("Srai returned "+leaf.category.inputThatTopic()+":"+leaf.category.getTemplate());
-      response = evalTemplate(leaf.category.getTemplate(), new ParseState(ps.depth + 1, ps.chatSession, ps.input, ps.that, topic, leaf));
+      response = evalTemplate(leaf.category.getTemplate(),
+          new ParseState(ps.getDepth() + 1, ps.getChatSession(), ps.getInput(), ps.getThat(), topic, leaf));
       // logger.debug("That="+that);
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -457,7 +459,7 @@ public class AIMLProcessor {
     String limit = getAttributeOrTagValue(node, ps, "limit");
     String defaultResponse = getAttributeOrTagValue(node, ps, "default");
     String evalResult = evalTagContent(node, ps, attributeNames);
-    String result = Sraix.sraix(ps.chatSession, evalResult, defaultResponse, hint, host, botid, null, limit);
+    String result = Sraix.sraix(ps.getChatSession(), evalResult, defaultResponse, hint, host, botid, null, limit);
     return result;
 
   }
@@ -480,7 +482,7 @@ public class AIMLProcessor {
     if (mapName == null)
       result = "<map>" + contents + "</map>"; // this is an OOB map tag (no attribute)
     else {
-      AIMLMap map = ps.chatSession.getBot().getMapMap().get(mapName);
+      AIMLMap map = ps.getChatSession().getBot().getMapMap().get(mapName);
       if (map != null)
         result = map.get(contents.toUpperCase());
       // logger.debug("AIMLProcessor map "+contents+" "+result);
@@ -509,14 +511,14 @@ public class AIMLProcessor {
     result = result.replaceAll("(\r\n|\n\r|\r|\n)", " ");
     String value = result.trim();
     if (predicateName != null) {
-      ps.chatSession.getPredicates().put(predicateName, result);
-      MagicBooleans.trace("Set predicate " + predicateName + " to " + result + " in " + ps.leaf.category.inputThatTopic());
+      ps.getChatSession().getPredicates().put(predicateName, result);
+      MagicBooleans.trace("Set predicate " + predicateName + " to " + result + " in " + ps.getLeaf().category.inputThatTopic());
     }
     if (varName != null) {
-      ps.vars.put(varName, result);
-      MagicBooleans.trace("Set var " + varName + " to " + value + " in " + ps.leaf.category.inputThatTopic());
+      ps.getVars().put(varName, result);
+      MagicBooleans.trace("Set var " + varName + " to " + value + " in " + ps.getLeaf().category.inputThatTopic());
     }
-    if (ps.chatSession.getBot().getPronounSet().contains(predicateName)) {
+    if (ps.getChatSession().getBot().getPronounSet().contains(predicateName)) {
       result = predicateName;
     }
     // MagicBooleans.trace("in AIMLProcessor.set, returning: " + result);
@@ -539,12 +541,12 @@ public class AIMLProcessor {
     String varName = getAttributeOrTagValue(node, ps, "var");
     String tupleName = getAttributeOrTagValue(node, ps, "tuple");
     if (predicateName != null)
-      result = ps.chatSession.getPredicates().get(predicateName).trim();
+      result = ps.getChatSession().getPredicates().get(predicateName).trim();
     else if (varName != null && tupleName != null) {
       result = tupleGet(tupleName, varName);
 
     } else if (varName != null) {
-      result = ps.vars.get(varName).trim();
+      result = ps.getVars().get(varName).trim();
     }
     // MagicBooleans.trace("in AIMLProcessor.get, returning: " + result);
     return result;
@@ -576,7 +578,7 @@ public class AIMLProcessor {
     // HashSet<String> attributeNames = Utilities.stringSet("name");
     String propertyName = getAttributeOrTagValue(node, ps, "name");
     if (propertyName != null)
-      result = ps.chatSession.getBot().getProperties().get(propertyName).trim();
+      result = ps.getChatSession().getBot().getProperties().get(propertyName).trim();
     // logger.debug("BOT: "+m.getNodeValue()+"="+result);
     return result;
   }
@@ -666,10 +668,10 @@ public class AIMLProcessor {
   private static String inputStar(Node node, ParseState ps) {
     String result = "";
     int index = getIndexValue(node, ps);
-    if (ps.starBindings.inputStars.star(index) == null)
+    if (ps.getStarBindings().getInputStars().star(index) == null)
       result = "";
     else
-      result = ps.starBindings.inputStars.star(index).trim();
+      result = ps.getStarBindings().getInputStars().star(index).trim();
     // logger.debug("inputStar: ps depth="+ps.depth+" index="+index+" star="+result);
     return result;
   }
@@ -685,10 +687,10 @@ public class AIMLProcessor {
    */
   private static String thatStar(Node node, ParseState ps) {
     int index = getIndexValue(node, ps);
-    if (ps.starBindings.thatStars.star(index) == null)
+    if (ps.getStarBindings().getThatStars().star(index) == null)
       return "";
     else
-      return ps.starBindings.thatStars.star(index).trim();
+      return ps.getStarBindings().getThatStars().star(index).trim();
   }
 
   /**
@@ -703,10 +705,10 @@ public class AIMLProcessor {
    */
   private static String topicStar(Node node, ParseState ps) {
     int index = getIndexValue(node, ps);
-    if (ps.starBindings.topicStars.star(index) == null)
+    if (ps.getStarBindings().getTopicStars().star(index) == null)
       return "";
     else
-      return ps.starBindings.topicStars.star(index).trim();
+      return ps.getStarBindings().getTopicStars().star(index).trim();
   }
 
   /**
@@ -721,7 +723,7 @@ public class AIMLProcessor {
    */
 
   private static String id(Node node, ParseState ps) {
-    return ps.chatSession.getCustomerId();
+    return ps.getChatSession().getCustomerId();
   }
 
   /**
@@ -735,7 +737,7 @@ public class AIMLProcessor {
    * @return bot brain size
    */
   private static String size(Node node, ParseState ps) {
-    int size = ps.chatSession.getBot().getBrain().getCategories().size();
+    int size = ps.getChatSession().getBot().getBrain().getCategories().size();
     return String.valueOf(size);
   }
 
@@ -750,7 +752,7 @@ public class AIMLProcessor {
    * @return bot vocabulary size
    */
   private static String vocabulary(Node node, ParseState ps) {
-    int size = ps.chatSession.getBot().getBrain().getVocabulary().size();
+    int size = ps.getChatSession().getBot().getBrain().getVocabulary().size();
     return String.valueOf(size);
   }
 
@@ -792,7 +794,7 @@ public class AIMLProcessor {
         ex.printStackTrace();
       }
     String that = MagicStrings.unknown_history_item;
-    History hist = ps.chatSession.getThatHistory().get(index);
+    History hist = ps.getChatSession().getThatHistory().get(index);
     if (hist != null)
       that = (String) hist.get(jndex);
     return that.trim();
@@ -810,7 +812,7 @@ public class AIMLProcessor {
 
   private static String input(Node node, ParseState ps) {
     int index = getIndexValue(node, ps);
-    return ps.chatSession.getInputHistory().getString(index);
+    return ps.getChatSession().getInputHistory().getString(index);
   }
 
   /**
@@ -824,7 +826,7 @@ public class AIMLProcessor {
    */
   private static String request(Node node, ParseState ps) { // AIML 2.0
     int index = getIndexValue(node, ps);
-    return ps.chatSession.getRequestHistory().getString(index).trim();
+    return ps.getChatSession().getRequestHistory().getString(index).trim();
   }
 
   /**
@@ -838,7 +840,7 @@ public class AIMLProcessor {
    */
   private static String response(Node node, ParseState ps) { // AIML 2.0
     int index = getIndexValue(node, ps);
-    return ps.chatSession.getResponseHistory().getString(index).trim();
+    return ps.getChatSession().getResponseHistory().getString(index).trim();
   }
 
   /**
@@ -905,7 +907,7 @@ public class AIMLProcessor {
     // MagicBooleans.trace("AIMLPreprocessor.normalize(node: " + node + ", ps: " + ")");
     String result = evalTagContent(node, ps, null);
     // MagicBooleans.trace("in AIMLPreprocessor.normalize(), result: " + result);
-    String returning = ps.chatSession.getBot().getPreProcessor().normalize(result);
+    String returning = ps.getChatSession().getBot().getPreProcessor().normalize(result);
     // MagicBooleans.trace("in AIMLPreprocessor.normalize(), returning: " + returning);
     return returning;
   }
@@ -921,7 +923,7 @@ public class AIMLProcessor {
    */
   private static String denormalize(Node node, ParseState ps) { // AIML 2.0
     String result = evalTagContent(node, ps, null);
-    return ps.chatSession.getBot().getPreProcessor().denormalize(result);
+    return ps.getChatSession().getBot().getPreProcessor().denormalize(result);
   }
 
   /**
@@ -997,9 +999,9 @@ public class AIMLProcessor {
     if (node.hasChildNodes())
       result = evalTagContent(node, ps, null);
     else
-      result = ps.starBindings.inputStars.star(0); // for <person/>
+      result = ps.getStarBindings().getInputStars().star(0); // for <person/>
     result = " " + result + " ";
-    result = ps.chatSession.getBot().getPreProcessor().person(result);
+    result = ps.getChatSession().getBot().getPreProcessor().person(result);
     return result.trim();
   }
 
@@ -1017,9 +1019,9 @@ public class AIMLProcessor {
     if (node.hasChildNodes())
       result = evalTagContent(node, ps, null);
     else
-      result = ps.starBindings.inputStars.star(0); // for <person2/>
+      result = ps.getStarBindings().getInputStars().star(0); // for <person2/>
     result = " " + result + " ";
-    result = ps.chatSession.getBot().getPreProcessor().person2(result);
+    result = ps.getChatSession().getBot().getPreProcessor().person2(result);
     return result.trim();
   }
 
@@ -1035,7 +1037,7 @@ public class AIMLProcessor {
   private static String gender(Node node, ParseState ps) {
     String result = evalTagContent(node, ps, null);
     result = " " + result + " ";
-    result = ps.chatSession.getBot().getPreProcessor().gender(result);
+    result = ps.getChatSession().getBot().getPreProcessor().gender(result);
     return result.trim();
   }
 
@@ -1126,14 +1128,14 @@ public class AIMLProcessor {
         if (node.getNodeName().equals("learn")) {
           // logger.debug("node is <learn>");
           c = new Category(0, pattern, that, "*", template, MagicStrings.null_aiml_file);
-          ps.chatSession.getBot().getLearnGraph().addCategory(c);
+          ps.getChatSession().getBot().getLearnGraph().addCategory(c);
         } else {// learnf
           // logger.debug("node is <learnf>");
           c = new Category(0, pattern, that, "*", template, MagicStrings.learnf_aiml_file);
-          ps.chatSession.getBot().getLearnfGraph().addCategory(c);
+          ps.getChatSession().getBot().getLearnfGraph().addCategory(c);
         }
-        ps.chatSession.getBot().getBrain().addCategory(c);
-        // ps.chatSession.getBot().brain.printgraph();
+        ps.getChatSession().getBot().getBrain().addCategory(c);
+        // ps.getChatSession().getBot().brain.printgraph();
       }
     }
     return "";
@@ -1194,11 +1196,11 @@ public class AIMLProcessor {
     // if there are no <li> nodes, this is a one-shot condition.
     if (liList.size() == 0 && (value = getAttributeOrTagValue(node, ps, "value")) != null &&
         predicate != null &&
-        ps.chatSession.getPredicates().get(predicate).equalsIgnoreCase(value)) {
+        ps.getChatSession().getPredicates().get(predicate).equalsIgnoreCase(value)) {
       return evalTagContent(node, ps, attributeNames);
     } else if (liList.size() == 0 && (value = getAttributeOrTagValue(node, ps, "value")) != null &&
         varName != null &&
-        ps.vars.get(varName).equalsIgnoreCase(value)) {
+        ps.getVars().get(varName).equalsIgnoreCase(value)) {
       return evalTagContent(node, ps, attributeNames);
     }
     // otherwise this is a <condition> with <li> items:
@@ -1215,11 +1217,11 @@ public class AIMLProcessor {
         // logger.debug("condition name="+liPredicate+" value="+value);
         if (value != null) {
           // if the predicate equals the value, return the <li> item.
-          if (liPredicate != null && value != null && (ps.chatSession.getPredicates().get(liPredicate).equalsIgnoreCase(value) ||
-              (ps.chatSession.getPredicates().containsKey(liPredicate) && value.equals("*"))))
+          if (liPredicate != null && value != null && (ps.getChatSession().getPredicates().get(liPredicate).equalsIgnoreCase(value) ||
+              (ps.getChatSession().getPredicates().containsKey(liPredicate) && value.equals("*"))))
             return evalTagContent(n, ps, attributeNames);
-          else if (liVarName != null && value != null && (ps.vars.get(liVarName).equalsIgnoreCase(value) ||
-              (ps.vars.containsKey(liPredicate) && value.equals("*"))))
+          else if (liVarName != null && value != null && (ps.getVars().get(liVarName).equalsIgnoreCase(value) ||
+              (ps.getVars().containsKey(liPredicate) && value.equals("*"))))
             return evalTagContent(n, ps, attributeNames);
 
         } else // this is a terminal <li> with no predicate or value, i.e. the default condition.
@@ -1248,23 +1250,23 @@ public class AIMLProcessor {
     String subject = getAttributeOrTagValue(node, ps, "subj");
     String predicate = getAttributeOrTagValue(node, ps, "pred");
     String object = getAttributeOrTagValue(node, ps, "obj");
-    return ps.chatSession.getTripleStore().deleteTriple(subject, predicate, object);
+    return ps.getChatSession().getTripleStore().deleteTriple(subject, predicate, object);
   }
 
   private static String addTriple(Node node, ParseState ps) {
     String subject = getAttributeOrTagValue(node, ps, "subj");
     String predicate = getAttributeOrTagValue(node, ps, "pred");
     String object = getAttributeOrTagValue(node, ps, "obj");
-    return ps.chatSession.getTripleStore().addTriple(subject, predicate, object);
+    return ps.getChatSession().getTripleStore().addTriple(subject, predicate, object);
   }
 
   /*
    * private static String qnotq(Node node, ParseState ps, Boolean affirm) { String subject = getAttributeOrTagValue(node, ps, "subj");
    * String predicate = getAttributeOrTagValue(node, ps, "pred"); String object = getAttributeOrTagValue(node, ps, "obj"); TripleStore ts =
-   * ps.chatSession.getTripleStore(); HashSet<String> triples = ts.getTriples(subject, predicate, object); if (!affirm) { HashSet<String> U
-   * = new HashSet<String>(ts.allTriples()); U.removeAll(triples); triples = U; } return ts.formatAIMLTripleList(triples); } private static
-   * String q(Node node, ParseState ps) { return qnotq(node, ps, true); } private static String notq(Node node, ParseState ps) { return
-   * qnotq(node, ps, false); }
+   * ps.getChatSession().getTripleStore(); HashSet<String> triples = ts.getTriples(subject, predicate, object); if (!affirm) {
+   * HashSet<String> U = new HashSet<String>(ts.allTriples()); U.removeAll(triples); triples = U; } return ts.formatAIMLTripleList(triples);
+   * } private static String q(Node node, ParseState ps) { return qnotq(node, ps, true); } private static String notq(Node node, ParseState
+   * ps) { return qnotq(node, ps, false); }
    */
   public static String uniq(Node node, ParseState ps) {
     HashSet<String> vars = new HashSet<String>();
@@ -1289,7 +1291,7 @@ public class AIMLProcessor {
     }
     Tuple partial = new Tuple(vars, visibleVars);
     Clause clause = new Clause(subj, pred, obj);
-    HashSet<Tuple> tuples = ps.chatSession.getTripleStore().selectFromSingleClause(partial, clause, true);
+    HashSet<Tuple> tuples = ps.getChatSession().getTripleStore().selectFromSingleClause(partial, clause, true);
     String tupleList = "";
     for (Tuple tuple : tuples) {
       tupleList = tuple.name + " " + tupleList;
@@ -1350,7 +1352,7 @@ public class AIMLProcessor {
 
       }
     }
-    HashSet<Tuple> tuples = ps.chatSession.getTripleStore().select(vars, visibleVars, clauses);
+    HashSet<Tuple> tuples = ps.getChatSession().getTripleStore().select(vars, visibleVars, clauses);
     String result = "";
     for (Tuple tuple : tuples) {
       result = tuple.name + " " + result;
@@ -1364,7 +1366,7 @@ public class AIMLProcessor {
   public static String subject(Node node, ParseState ps) {
     String id = evalTagContent(node, ps, null);
 
-    TripleStore ts = ps.chatSession.getTripleStore();
+    TripleStore ts = ps.getChatSession().getTripleStore();
     String subject = "unknown";
     if (ts.idTriple.containsKey(id))
       subject = ts.idTriple.get(id).subject;
@@ -1374,7 +1376,7 @@ public class AIMLProcessor {
 
   public static String predicate(Node node, ParseState ps) {
     String id = evalTagContent(node, ps, null);
-    TripleStore ts = ps.chatSession.getTripleStore();
+    TripleStore ts = ps.getChatSession().getTripleStore();
     if (ts.idTriple.containsKey(id))
       return ts.idTriple.get(id).predicate;
     else
@@ -1383,7 +1385,7 @@ public class AIMLProcessor {
 
   public static String object(Node node, ParseState ps) {
     String id = evalTagContent(node, ps, null);
-    TripleStore ts = ps.chatSession.getTripleStore();
+    TripleStore ts = ps.getChatSession().getTripleStore();
     if (ts.idTriple.containsKey(id))
       return ts.idTriple.get(id).object;
     else
@@ -1434,19 +1436,19 @@ public class AIMLProcessor {
 
   public static String rest(Node node, ParseState ps) {
     String content = evalTagContent(node, ps, null);
-    content = ps.chatSession.getBot().getPreProcessor().normalize(content);
+    content = ps.getChatSession().getBot().getPreProcessor().normalize(content);
     return restWords(content);
 
   }
 
   public static String resetlearnf(Node node, ParseState ps) {
-    ps.chatSession.getBot().deleteLearnfCategories();
+    ps.getChatSession().getBot().deleteLearnfCategories();
     return "Deleted Learnf Categories";
 
   }
 
   public static String resetlearn(Node node, ParseState ps) {
-    ps.chatSession.getBot().deleteLearnCategories();
+    ps.getChatSession().getBot().deleteLearnCategories();
     return "Deleted Learn Categories";
 
   }
@@ -1481,7 +1483,7 @@ public class AIMLProcessor {
       else if (nodeName.equals("srai"))
         return srai(node, ps);
       else if (nodeName.equals("sr"))
-        return respond(ps.starBindings.inputStars.star(0), ps.that, ps.topic, ps.chatSession, sraiCount);
+        return respond(ps.getStarBindings().getInputStars().star(0), ps.getThat(), ps.getTopic(), ps.getChatSession(), sraiCount);
       else if (nodeName.equals("sraix"))
         return sraix(node, ps);
       else if (nodeName.equals("set"))

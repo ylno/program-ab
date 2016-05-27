@@ -61,7 +61,7 @@ public class TestAB {
     }
     public static void testBotChat () {
         Bot bot = new Bot("alice");
-    logger.debug(bot.getBrain().upgradeCnt + " brain upgrades");
+    logger.debug(bot.getBrain().getUpgradeCnt() + " brain upgrades");
 
         //bot.brain.printgraph();
         Chat chatSession = new Chat(bot);

@@ -165,26 +165,6 @@ public class EnglishNumberToWords
         name2number.writeAIMLMap();
 
     }
-    public static void main(String[] args) {
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(0));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(1));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(16));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(100));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(118));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(200));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(219));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(800));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(801));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(1316));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(1000000));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(2000000));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(3000200));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(700000));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(9000000));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(9001000));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(123456789));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(2147483647));
-        userinteraction.outputForUserWithNewline("*** " + EnglishNumberToWords.convert(3000000010L));
 
     /*
      *** zero
@@ -209,5 +189,4 @@ public class EnglishNumberToWords
      **      four hundred eighty three thousand six hundred forty seven
      *** three billion ten
      **/
-    }
 }

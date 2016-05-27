@@ -28,9 +28,24 @@ import net.seibertmedia.chatbot.UserInteraction;
  * Linked list representation of Pattern Path and Input Path
  */
 public class Path extends ArrayList<String>{
-    public String word;
-    public Path next;
-    public int length;
+
+  private String word;
+
+  private Path next;
+
+  private int length;
+
+  public String getWord() {
+    return word;
+  }
+
+  public Path getNext() {
+    return next;
+  }
+
+  public int getLength() {
+    return length;
+  }
 
   private UserInteraction userinteraction;
 

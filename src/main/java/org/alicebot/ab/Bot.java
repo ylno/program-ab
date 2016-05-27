@@ -776,7 +776,7 @@ public class Bot {
    * check Graphmaster for shadowed categories
    */
   public void shadowChecker() {
-    shadowChecker(brain.root);
+    shadowChecker(brain.getRoot());
   }
 
   /**
