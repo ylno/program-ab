@@ -333,6 +333,48 @@ public class Chat {
     return response;
   }
 
+  /**
+   * return a compound response to a multiple-sentence request. "Multiple" means one or more.
+   *
+   * @param request
+   *          client's multiple-sentence input
+   * @return
+   */
+  public String firstsentenceRespond(String request) {
+
+    // MagicBooleans.trace("chat.multisentenceRespond(request: " + request + ")");
+    String response = "";
+    matchTrace = "";
+    try {
+      String normalized = bot.getPreProcessor().normalize(request);
+      normalized = JapaneseUtils.tokenizeSentence(normalized);
+      // MagicBooleans.trace("in chat.multisentenceRespond(), normalized: " + normalized);
+      String sentences[] = bot.getPreProcessor().sentenceSplit(normalized);
+      History<String> contextThatHistory = new History<String>("contextThat");
+      for (int i = 0; i < 1; i++) {
+        // userinteraction.outputForUserWithNewline("Human: "+sentences[i]);
+        AIMLProcessor.trace_count = 0;
+        String reply = respond(sentences[i], contextThatHistory);
+        response += "  " + reply;
+        // userinteraction.outputForUserWithNewline("Robot: "+reply);
+      }
+      requestHistory.add(request);
+      responseHistory.add(response);
+      thatHistory.add(contextThatHistory);
+      response = response.replaceAll("[\n]+", "\n");
+      response = response.trim();
+    } catch (Exception ex) {
+      ex.printStackTrace();
+      return MagicStrings.error_bot_response;
+    }
+
+    if (doWrites) {
+      bot.writeLearnfIFCategories();
+    }
+    // MagicBooleans.trace("in chat.multisentenceRespond(), returning: " + response);
+    return response;
+  }
+
   public static void setMatchTrace(String newMatchTrace) {
     matchTrace = newMatchTrace;
   }

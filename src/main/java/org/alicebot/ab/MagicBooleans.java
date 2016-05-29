@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MagicBooleans {
     private static final Logger logger = LoggerFactory.getLogger(MagicBooleans.class);
-  public static boolean trace_mode = true;
+  public static boolean trace_mode = false;
     public static boolean enable_external_sets = true;
     public static boolean enable_external_maps = true;
     public static boolean jp_tokenize = false;

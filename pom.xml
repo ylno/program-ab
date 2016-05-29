@@ -76,7 +76,7 @@
 					<mainClass>Main</mainClass>
 
 					<arguments>
-						<argument>bot=rosie</argument>
+						<argument>bot=german</argument>
 						<argument>action=chat</argument>
 						<!--argument>action=aiml2csv</argument-->
 						<argument>trace=false</argument>

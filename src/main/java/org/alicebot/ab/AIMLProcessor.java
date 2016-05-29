@@ -1368,8 +1368,8 @@ public class AIMLProcessor {
 
     TripleStore ts = ps.getChatSession().getTripleStore();
     String subject = "unknown";
-    if (ts.idTriple.containsKey(id))
-      subject = ts.idTriple.get(id).subject;
+    if (ts.getIdTriple().containsKey(id))
+      subject = ts.getIdTriple().get(id).subject;
     // logger.debug("subject "+id+"="+subject);
     return subject;
   }
@@ -1377,8 +1377,8 @@ public class AIMLProcessor {
   public static String predicate(Node node, ParseState ps) {
     String id = evalTagContent(node, ps, null);
     TripleStore ts = ps.getChatSession().getTripleStore();
-    if (ts.idTriple.containsKey(id))
-      return ts.idTriple.get(id).predicate;
+    if (ts.getIdTriple().containsKey(id))
+      return ts.getIdTriple().get(id).predicate;
     else
       return "unknown";
   }
@@ -1386,8 +1386,8 @@ public class AIMLProcessor {
   public static String object(Node node, ParseState ps) {
     String id = evalTagContent(node, ps, null);
     TripleStore ts = ps.getChatSession().getTripleStore();
-    if (ts.idTriple.containsKey(id))
-      return ts.idTriple.get(id).object;
+    if (ts.getIdTriple().containsKey(id))
+      return ts.getIdTriple().get(id).object;
     else
       return "unknown";
   }

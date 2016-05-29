@@ -229,6 +229,9 @@ public class PreProcessor {
      * @return       array of sentences
      */
     public String[] sentenceSplit(String line) {
+    while (line.contains("..")) {
+      line = line.replace("..", ".");
+    }
         line = line.replace("。",".");
         line = line.replace("？","?");
         line = line.replace("！","!");

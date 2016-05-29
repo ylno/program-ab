@@ -51,4 +51,21 @@ public class ChatUnitTest {
     assertThat(test1.multisentenceRespond("What is my name?"), containsString("Gerulf"));
   }
 
+  @Test
+  public void testBotVsBot() {
+    Bot bot = new Bot("german", "/Users/mfrankl/Documents/sources/chatbot/botimplementation", "auto");
+    Chat chat1 = new Chat(bot, false, "1");
+    Chat chat2 = new Chat(bot, false, "2");
+
+    String abot1 = chat1.multisentenceRespond("Mein Name ist Michael");
+    String abot2;
+    for (int i = 0; i < 100; i++) {
+      logger.debug("bot1: {}", abot1);
+      abot2 = chat2.multisentenceRespond(abot1);
+      logger.debug("bot2: {}", abot2);
+      abot1 = chat1.firstsentenceRespond(abot2);
+    }
+
+  }
+
 }
