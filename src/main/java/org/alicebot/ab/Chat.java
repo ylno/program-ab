@@ -45,7 +45,7 @@ public class Chat {
   // public History<String> repetitionHistory = new History<String>("repetition");
   private History<String> inputHistory = new History<String>("input");
 
-  private Predicates predicates = new Predicates();
+  private Predicates predicates;
   private static String matchTrace = "";
   private static boolean locationKnown = false;
   private static String longitude;
@@ -132,6 +132,9 @@ public class Chat {
    */
   public Chat(Bot bot, boolean doWrites, String customerId) {
     userInteraction = new CommandLineInteraction();
+
+    predicates = new Predicates(bot.getName(), customerId);
+
     this.customerId = customerId;
     this.bot = bot;
     this.doWrites = doWrites;

@@ -48,7 +48,7 @@ public class ParseState {
         this.topic = topic;
         this.leaf = leaf;
         this.depth = depth;  // to prevent runaway recursion
-        this.vars = new Predicates();
+        this.vars = new Predicates(chatSession.getBot().getName(), chatSession.getCustomerId());
         this.starBindings = leaf.starBindings;
     }
 

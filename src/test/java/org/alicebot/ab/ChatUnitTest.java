@@ -68,4 +68,16 @@ public class ChatUnitTest {
 
   }
 
+  @Test
+  public void testThat() {
+    Bot bot = new Bot("testbot", "src/test/resources", "auto");
+    Chat test1 = new Chat(bot);
+    String answer1 = test1.multisentenceRespond("GIVE ME DIRECTIONS");
+    assertThat(answer1, containsString("Where do you want to go?"));
+
+    String answer2 = test1.multisentenceRespond("Pain");
+    assertThat(answer2, containsString("Here are the driving directions."));
+
+  }
+
 }

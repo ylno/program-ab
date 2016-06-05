@@ -20,6 +20,9 @@ package org.alicebot.ab;
 */
 
 import org.alicebot.ab.utils.JapaneseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
 
 import java.io.*;
 import java.util.HashMap;
@@ -29,6 +32,22 @@ import java.util.HashMap;
  *
  */
 public class Predicates extends HashMap<String, String> {
+
+    private static final Logger logger = LoggerFactory.getLogger(Predicates.class);
+    private final Jedis jedis;
+
+    private final String storageMainKey;
+
+    public Predicates(final String name, final String customerId) {
+        jedis = new Jedis("localhost");
+        storageMainKey = new StringBuilder(name).append(".").append(customerId).toString();
+        logger.debug("storage main key: {}", storageMainKey);
+    }
+
+    private String buildKey(String key) {
+        return storageMainKey + "." + key;
+    }
+
     /**
      * save a predicate value
      *
@@ -45,6 +64,10 @@ public class Predicates extends HashMap<String, String> {
         if (value.equals(MagicStrings.too_much_recursion)) value = MagicStrings.default_list_item;
         // MagicBooleans.trace("Setting predicate key: " + key + " to value: " + value);
 		String result = super.put(key, value);
+        jedis.set("foo", "bar");
+        String storageKey = buildKey(key);
+        logger.debug("storing value: {}, {}", key, value);
+        jedis.set(storageKey, value);
 		//MagicBooleans.trace("in predicates.put, returning: " + result);
         return result;
     }
@@ -58,9 +81,22 @@ public class Predicates extends HashMap<String, String> {
     public String get(String key) {
 		//MagicBooleans.trace("predicates.get(key: " + key + ")");
         String result = super.get(key);
+        result = jedis.get(buildKey(key));
+        logger.debug("read value {}, {}", key, result);
         if (result == null) result = MagicStrings.default_get;
+
+
 		//MagicBooleans.trace("in predicates.get, returning: " + result);
         return result;
+    }
+
+    @Override
+    public boolean containsKey(final Object key) {
+        String s = jedis.get(key.toString());
+        if(s!=null) {
+            return true;
+        }
+        return super.containsKey(key);
     }
 
     /**
