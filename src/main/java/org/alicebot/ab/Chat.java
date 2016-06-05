@@ -7,6 +7,11 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 
 import org.alicebot.ab.utils.IOUtils;
 import org.alicebot.ab.utils.JapaneseUtils;
@@ -15,6 +20,8 @@ import org.slf4j.LoggerFactory;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
 import net.seibertmedia.chatbot.UserInteraction;
+
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 /*
  * Program AB Reference AIML 2.0 implementation Copyright (C) 2013 ALICE A.I. Foundation Contact: info@alicebot.org
@@ -51,6 +58,8 @@ public class Chat {
   private static String longitude;
   private static String latitude;
   private TripleStore tripleStore = new TripleStore("anon", this);
+
+  private LocalDateTime lastAction;
 
   public boolean getLocationKnown() {
     return locationKnown;
@@ -302,6 +311,8 @@ public class Chat {
    * @return
    */
   public String multisentenceRespond(String request) {
+    lastAction = LocalDateTime.now();
+
 
     // MagicBooleans.trace("chat.multisentenceRespond(request: " + request + ")");
     String response = "";
@@ -344,6 +355,7 @@ public class Chat {
    * @return
    */
   public String firstsentenceRespond(String request) {
+    lastAction = LocalDateTime.now();
 
     // MagicBooleans.trace("chat.multisentenceRespond(request: " + request + ")");
     String response = "";
@@ -381,4 +393,20 @@ public class Chat {
   public static void setMatchTrace(String newMatchTrace) {
     matchTrace = newMatchTrace;
   }
+
+  public boolean inactiveForSeconds(int secondsLimit) {
+    if(lastAction==null) {
+      lastAction = LocalDateTime.now();
+    }
+    LocalDateTime now = LocalDateTime.now();
+    Period between = Period.between(lastAction.toLocalDate(), now.toLocalDate());
+    long secondsPassed = Duration.between(lastAction, now).get(SECONDS);
+    if(secondsPassed>secondsLimit) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
 }

@@ -1,5 +1,6 @@
 package org.alicebot.ab;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
@@ -41,8 +42,8 @@ public class ChatUnitTest {
   @Test
   public void testParallelChats() {
     Bot bot = new Bot("testbot", "src/test/resources", "auto");
-    Chat test1 = new Chat(bot);
-    Chat test2 = new Chat(bot);
+    Chat test1 = new Chat(bot, false, "1");
+    Chat test2 = new Chat(bot, false, "2");
     String answer1 = test1.multisentenceRespond("My name is gerulf.");
     assertThat(answer1, containsString("Gerulf"));
     assertThat(test1.multisentenceRespond("What is my name?"), containsString("Gerulf"));
@@ -50,6 +51,13 @@ public class ChatUnitTest {
     String answer2 = test2.multisentenceRespond("My name is Uwe");
     assertThat(answer2, containsString("Uwe"));
     assertThat(test1.multisentenceRespond("What is my name?"), containsString("Gerulf"));
+  }
+
+  @Test
+  public void testInactivity() {
+    Bot bot = new Bot("testbot", "src/test/resources", "auto");
+    Chat test1 = new Chat(bot, false, "1");
+    assertThat(test1.inactiveForSeconds(10), is(false));
   }
 
   @Test
