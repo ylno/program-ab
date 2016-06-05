@@ -238,6 +238,7 @@ public class Bot {
     // readUnfinishedIFCategories();
     MagicStrings.pannous_api_key = Utilities.getPannousAPIKey(this);
     MagicStrings.pannous_login = Utilities.getPannousLogin(this);
+
     if (action.equals("aiml2csv"))
       addCategoriesFromAIML();
     else if (action.equals("csv2aiml"))
@@ -246,7 +247,7 @@ public class Bot {
       if (MagicBooleans.trace_mode)
         logger.debug("Loading only AIMLIF files");
       cnt = addCategoriesFromAIMLIF();
-    } else if (aimlDate.after(aimlIFDate)) {
+    } else if (true || aimlDate.after(aimlIFDate)) {
       if (MagicBooleans.trace_mode)
         logger.debug("AIML modified after AIMLIF");
       cnt = addCategoriesFromAIML();

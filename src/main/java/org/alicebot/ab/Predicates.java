@@ -41,7 +41,7 @@ public class Predicates extends HashMap<String, String> {
     public Predicates(final String name, final String customerId) {
         jedis = new Jedis("localhost");
         storageMainKey = new StringBuilder(name).append(".").append(customerId).toString();
-        logger.debug("storage main key: {}", storageMainKey);
+        logger.trace("storage main key: {}", storageMainKey);
     }
 
     private String buildKey(String key) {
@@ -82,7 +82,7 @@ public class Predicates extends HashMap<String, String> {
 		//MagicBooleans.trace("predicates.get(key: " + key + ")");
         String result = super.get(key);
         result = jedis.get(buildKey(key));
-        logger.debug("read value {}, {}", key, result);
+        logger.trace("read value {}, {}", key, result);
         if (result == null) result = MagicStrings.default_get;
 
 

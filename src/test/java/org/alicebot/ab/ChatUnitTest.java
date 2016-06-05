@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.containsString;
 import java.util.Locale;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,8 +53,9 @@ public class ChatUnitTest {
   }
 
   @Test
+  @Ignore
   public void testBotVsBot() {
-    Bot bot = new Bot("german", "/Users/mfrankl/Documents/sources/chatbot/botimplementation", "auto");
+    Bot bot = new Bot("german-bot", "../", "auto");
     Chat chat1 = new Chat(bot, false, "1");
     Chat chat2 = new Chat(bot, false, "2");
 
