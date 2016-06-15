@@ -1186,13 +1186,16 @@ public class AIMLProcessor {
     ArrayList<Node> liList = new ArrayList<Node>();
     String predicate = null, varName = null, value = null; // Node p=null, v=null;
     HashSet<String> attributeNames = Utilities.stringSet("name", "var", "value");
+
     // First check if the <condition> has an attribute "name". If so, get the predicate name.
     predicate = getAttributeOrTagValue(node, ps, "name");
     varName = getAttributeOrTagValue(node, ps, "var");
+
     // Make a list of all the <li> child nodes:
     for (int i = 0; i < childList.getLength(); i++)
       if (childList.item(i).getNodeName().equals("li"))
         liList.add(childList.item(i));
+
     // if there are no <li> nodes, this is a one-shot condition.
     if (liList.size() == 0 && (value = getAttributeOrTagValue(node, ps, "value")) != null &&
         predicate != null &&
@@ -1203,6 +1206,7 @@ public class AIMLProcessor {
         ps.getVars().get(varName).equalsIgnoreCase(value)) {
       return evalTagContent(node, ps, attributeNames);
     }
+
     // otherwise this is a <condition> with <li> items:
     else
       for (int i = 0; i < liList.size() && result.equals(""); i++) {

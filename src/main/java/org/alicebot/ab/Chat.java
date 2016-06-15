@@ -1,5 +1,7 @@
 package org.alicebot.ab;
 
+import static java.time.temporal.ChronoUnit.SECONDS;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,8 +12,6 @@ import java.io.InputStreamReader;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 
 import org.alicebot.ab.utils.IOUtils;
 import org.alicebot.ab.utils.JapaneseUtils;
@@ -20,8 +20,6 @@ import org.slf4j.LoggerFactory;
 
 import net.seibertmedia.chatbot.CommandLineInteraction;
 import net.seibertmedia.chatbot.UserInteraction;
-
-import static java.time.temporal.ChronoUnit.SECONDS;
 
 /*
  * Program AB Reference AIML 2.0 implementation Copyright (C) 2013 ALICE A.I. Foundation Contact: info@alicebot.org
@@ -316,6 +314,7 @@ public class Chat {
 
     // MagicBooleans.trace("chat.multisentenceRespond(request: " + request + ")");
     String response = "";
+    //request = request.replaceAll("ü", "ue").replaceAll("Ü", "UE").replaceAll("ö", "oe").replaceAll("Ö", "OE").replaceAll("ä". "ae", );
     matchTrace = "";
     try {
       String normalized = bot.getPreProcessor().normalize(request);
