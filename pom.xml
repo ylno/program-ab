@@ -85,11 +85,11 @@
 					<systemProperties>
 						<systemProperty>
 							<key>user.language</key>
-							<value>en</value>
+							<value>de</value>
 						</systemProperty>
 						<systemProperty>
 							<key>user.country</key>
-							<value>US</value>
+							<value>DE</value>
 						</systemProperty>
 					</systemProperties>
 				</configuration>
