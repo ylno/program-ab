@@ -1597,7 +1597,7 @@ public class AIMLProcessor {
       Node root = DomUtils.parseString(template);
       response = recursEval(root, ps);
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error("parse error {}", e);
     }
     // MagicBooleans.trace("in AIMLProcessor.evalTemplate() returning: " + response);
     return response;

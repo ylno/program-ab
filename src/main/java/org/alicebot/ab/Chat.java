@@ -226,7 +226,7 @@ public class Chat {
       }
       // bw.close();
     } catch (Exception ex) {
-      ex.printStackTrace();
+      logger.error("Exception {}", ex);
     }
   }
 
