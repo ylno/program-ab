@@ -139,7 +139,7 @@ public class PreProcessor {
             String replacement =  subs[i];
             Pattern p = patterns[i];
             Matcher m = p.matcher(result);
-            //logger.debug(i+" "+patterns[i].pattern()+"-->"+subs[i]);
+//            logger.debug(i+" "+patterns[i].pattern()+"-->"+subs[i]);
             if (m.find()) {
                 //logger.debug(i+" "+patterns[i].pattern()+"-->"+subs[i]);
                 //logger.debug(m.group());
