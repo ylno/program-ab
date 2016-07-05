@@ -71,7 +71,7 @@ public class ChatUnitTest {
     String abot2;
     for (int i = 0; i < 100; i++) {
       logger.debug("bot1: {}", abot1);
-      abot2 = chat2.multisentenceRespond(abot1);
+      abot2 = chat2.firstsentenceRespond(abot1);
       logger.debug("bot2: {}", abot2);
       abot1 = chat1.firstsentenceRespond(abot2);
     }
