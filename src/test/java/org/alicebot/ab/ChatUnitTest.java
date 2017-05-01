@@ -1,16 +1,16 @@
 package org.alicebot.ab;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-
-import java.util.Locale;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Locale;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 
 public class ChatUnitTest {
   private static final Logger logger = LoggerFactory.getLogger(ChatUnitTest.class);
@@ -67,7 +67,7 @@ public class ChatUnitTest {
     Chat chat1 = new Chat(bot, false, "1");
     Chat chat2 = new Chat(bot, false, "2");
 
-    String abot1 = chat1.multisentenceRespond("Mein Name ist Michael");
+    String abot1 = chat1.multisentenceRespond("Hallo");
     String abot2;
     for (int i = 0; i < 100; i++) {
       logger.debug("bot1: {}", abot1);
