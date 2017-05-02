@@ -30,7 +30,7 @@ public class NewsPlugin {
       for (Object syndEntryO : feed.getEntries()) {
         SyndEntry syndEntry = (SyndEntry) syndEntryO;
         StringBuilder next = new StringBuilder();
-        next.append(syndEntry.getTitle()).append("\n").append(syndEntry.getLink()).append("\n\n");
+        next.append(syndEntry.getDescription().getValue()).append("\n").append("\n\n");
 
         if (result.length() + next.length() > MAXLENGTH) {
           break;
