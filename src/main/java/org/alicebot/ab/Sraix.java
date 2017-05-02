@@ -43,7 +43,7 @@ public class Sraix {
     String response;
     if (!MagicBooleans.enable_network_connection)
       response = MagicStrings.sraix_failed;
-    else if (plugin.equals("news")) {
+    else if (plugin != null && plugin.equals("news")) {
       response = newsPlugin.getFeed();
     } else if (host != null && botid != null) {
       response = sraixPandorabots(input, chatSession, host, botid);
@@ -159,8 +159,7 @@ public class Sraix {
 //          + "&exclude=Dialogues,ChatBot&out=json&clientFeatures=show-images,reminder,say&debug=true";
 
         String url = "http://ask.pannous.com/api?input=" + input + "&timeZone=" + offset + locationString + "&login="
-            + MagicStrings.pannous_login + "&ip=" + NetworkUtils.localIPAddress() + "&botid=0&key=" + MagicStrings.pannous_api_key
-            + "&exclude=Dialogues,ChatBot&out=json&clientFeatures=show-images,reminder,say&debug=true";
+            + MagicStrings.pannous_login + "&ip=" + NetworkUtils.localIPAddress() + "&botid=0&key=" + MagicStrings.pannous_api_key + "&exclude=Dialogues,ChatBot&out=json&clientFeatures=show-images,reminder,say&debug=true&locale=dew";
 
 
         MagicBooleans.trace("in Sraix.sraixPannous, url: '" + url + "'");

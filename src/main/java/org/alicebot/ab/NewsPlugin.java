@@ -15,6 +15,8 @@ public class NewsPlugin {
 
   private static final Logger logger = LoggerFactory.getLogger(NewsPlugin.class);
 
+  public static final String NEWSURL = "http://www.taz.de/Themen-des-Tages/!p15;rss/";
+
   private static int MAXLENGTH = 4096;
 
   public NewsPlugin() {
@@ -24,7 +26,7 @@ public class NewsPlugin {
 
     try {
       SyndFeedInput input = new SyndFeedInput();
-      SyndFeed feed = input.build(new XmlReader(new URL("http://www.taz.de/Themen-des-Tages/!p15;rss/")));
+      SyndFeed feed = input.build(new XmlReader(new URL(NEWSURL)));
 
       final StringBuilder result = new StringBuilder();
       for (Object syndEntryO : feed.getEntries()) {

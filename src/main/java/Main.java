@@ -12,13 +12,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
 import org.alicebot.ab.AB;
 import org.alicebot.ab.AIMLProcessor;
 import org.alicebot.ab.Bot;
@@ -36,8 +31,12 @@ import org.alicebot.ab.Verbs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
 
 public class Main {
 
@@ -59,6 +58,9 @@ public class Main {
     MagicBooleans.jp_tokenize = false;
     MagicBooleans.trace_mode = true;
     String action = "chat";
+
+    System.out.println("Executiondir " + System.getProperty("user.dir"));
+
     logger.debug(MagicStrings.program_name_version);
     for (String s : args) {
       // logger.debug(s);
