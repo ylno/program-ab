@@ -44,7 +44,7 @@ public class Sraix {
     if (!MagicBooleans.enable_network_connection)
       response = MagicStrings.sraix_failed;
     else if (plugin.equals("news")) {
-      response = newsPlugin.getFirstEntry();
+      response = newsPlugin.getFeed();
     } else if (host != null && botid != null) {
       response = sraixPandorabots(input, chatSession, host, botid);
     } else

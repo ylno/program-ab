@@ -11,7 +11,7 @@ public class NewsPluginTest {
   @Test
   public void getFirstEntry() throws Exception {
     NewsPlugin newsPlugin = new NewsPlugin();
-    String firstEntry = newsPlugin.getFirstEntry();
+    String firstEntry = newsPlugin.getFeed();
     logger.debug(firstEntry);
   }
 

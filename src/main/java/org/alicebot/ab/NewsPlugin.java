@@ -18,14 +18,19 @@ public class NewsPlugin {
   public NewsPlugin() {
   }
 
-  public String getFirstEntry() {
+  public String getFeed() {
 
     try {
       SyndFeedInput input = new SyndFeedInput();
       SyndFeed feed = input.build(new XmlReader(new URL("http://www.taz.de/Themen-des-Tages/!p15;rss/")));
-      SyndEntry syndEntry = (SyndEntry) feed.getEntries().get(0);
 
-      return syndEntry.getDescription().getValue();
+      final StringBuilder result = new StringBuilder();
+      for (Object syndEntryO : feed.getEntries()) {
+        SyndEntry syndEntry = (SyndEntry) syndEntryO;
+        result.append("<p>").append(syndEntry.getDescription().getValue()).append("</p>");
+      }
+
+      return result.toString();
     } catch (FeedException e) {
       e.printStackTrace();
     } catch (IOException e) {
