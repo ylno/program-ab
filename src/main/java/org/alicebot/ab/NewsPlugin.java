@@ -29,8 +29,11 @@ public class NewsPlugin {
       final StringBuilder result = new StringBuilder();
       for (Object syndEntryO : feed.getEntries()) {
         SyndEntry syndEntry = (SyndEntry) syndEntryO;
+
+        String description = syndEntry.getDescription().getValue().replaceAll("<[^>]*>", "");
+
         StringBuilder next = new StringBuilder();
-        next.append(syndEntry.getDescription().getValue()).append("\n").append("\n\n");
+        next.append(syndEntry.getTitle()).append("\n").append(description).append("\n").append(syndEntry.getLink()).append("\n\n");
 
         if (result.length() + next.length() > MAXLENGTH) {
           break;
