@@ -27,7 +27,7 @@ public class NewsPlugin {
       final StringBuilder result = new StringBuilder();
       for (Object syndEntryO : feed.getEntries()) {
         SyndEntry syndEntry = (SyndEntry) syndEntryO;
-        result.append(syndEntry.getDescription().getValue()).append("\n");
+        result.append(syndEntry.getTitle()).append("\n").append(syndEntry.getLink()).append("\n\n");
       }
 
       return result.toString();
