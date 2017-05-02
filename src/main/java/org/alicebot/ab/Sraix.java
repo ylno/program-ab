@@ -158,8 +158,7 @@ public class Sraix {
 //          + MagicStrings.pannous_login + "&ip=" + NetworkUtils.localIPAddress() + "&botid=0&key=" + MagicStrings.pannous_api_key
 //          + "&exclude=Dialogues,ChatBot&out=json&clientFeatures=show-images,reminder,say&debug=true";
 
-        String url = "http://ask.pannous.com/api?input=" + input + "&timeZone=" + offset + locationString + "&login="
-            + MagicStrings.pannous_login + "&ip=" + NetworkUtils.localIPAddress() + "&botid=0&key=" + MagicStrings.pannous_api_key + "&exclude=Dialogues,ChatBot&out=json&clientFeatures=show-images,reminder,say&debug=true&locale=dew";
+        String url = "http://ask.pannous.com/api?input=" + input + "&timeZone=" + offset + locationString + "&login=" + MagicStrings.pannous_login + "&ip=" + NetworkUtils.localIPAddress() + "&botid=0&key=" + MagicStrings.pannous_api_key + "&exclude=Dialogues,ChatBot&out=json&clientFeatures=show-images,reminder,say&debug=true&locale=de";
 
 
         MagicBooleans.trace("in Sraix.sraixPannous, url: '" + url + "'");
