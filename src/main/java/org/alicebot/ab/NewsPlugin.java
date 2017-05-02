@@ -15,6 +15,8 @@ public class NewsPlugin {
 
   private static final Logger logger = LoggerFactory.getLogger(NewsPlugin.class);
 
+  private static int MAXLENGTH = 4096;
+
   public NewsPlugin() {
   }
 
@@ -27,7 +29,13 @@ public class NewsPlugin {
       final StringBuilder result = new StringBuilder();
       for (Object syndEntryO : feed.getEntries()) {
         SyndEntry syndEntry = (SyndEntry) syndEntryO;
-        result.append(syndEntry.getTitle()).append("\n").append(syndEntry.getLink()).append("\n\n");
+        StringBuilder next = new StringBuilder();
+        next.append(syndEntry.getTitle()).append("\n").append(syndEntry.getLink()).append("\n\n");
+
+        if (result.length() + next.length() > MAXLENGTH) {
+          break;
+        }
+        result.append(next);
       }
 
       return result.toString();
