@@ -90,4 +90,13 @@ public class ChatUnitTest {
 
   }
 
+  @Test
+  public void testNews() {
+    Bot bot = new Bot("testbot", "src/test/resources", "auto");
+    Chat test1 = new Chat(bot);
+    String answer1 = test1.multisentenceRespond("was gibt es neues");
+    assertThat(answer1, containsString("taz"));
+
+  }
+
 }

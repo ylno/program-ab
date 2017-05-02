@@ -12,10 +12,6 @@ package org.alicebot.ab;
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.alicebot.ab.utils.CalendarUtils;
 import org.alicebot.ab.utils.DomUtils;
 import org.alicebot.ab.utils.IOUtils;
@@ -26,6 +22,10 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The core AIML parser and interpreter. Implements the AIML 2.0 specification as described in AIML 2.0 Working Draft document
@@ -454,12 +454,13 @@ public class AIMLProcessor {
   private static String sraix(Node node, ParseState ps) {
     HashSet<String> attributeNames = Utilities.stringSet("botid", "host");
     String host = getAttributeOrTagValue(node, ps, "host");
+    String plugin = getAttributeOrTagValue(node, ps, "plugin");
     String botid = getAttributeOrTagValue(node, ps, "botid");
     String hint = getAttributeOrTagValue(node, ps, "hint");
     String limit = getAttributeOrTagValue(node, ps, "limit");
     String defaultResponse = getAttributeOrTagValue(node, ps, "default");
     String evalResult = evalTagContent(node, ps, attributeNames);
-    String result = Sraix.sraix(ps.getChatSession(), evalResult, defaultResponse, hint, host, botid, null, limit);
+    String result = Sraix.sraix(ps.getChatSession(), evalResult, defaultResponse, hint, host, botid, null, limit, plugin);
     return result;
 
   }

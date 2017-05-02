@@ -12,6 +12,12 @@ package org.alicebot.ab;
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
+import org.json.JSONArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,13 +28,6 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.json.JSONArray;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
 
 /**
  * implements AIML Sets
@@ -75,7 +74,7 @@ public class AIMLSet extends HashSet<String> {
       if (split.length > maxLength)
         return false;
       String query = MagicStrings.set_member_string + setName.toUpperCase() + " " + s;
-      String response = Sraix.sraix(null, query, "false", null, host, botid, null, "0");
+      String response = Sraix.sraix(null, query, "false", null, host, botid, null, "0", "");
       // logger.debug("External "+setName+" contains "+s+"? "+response);
       if (response.equals("true")) {
         inCache.add(s);

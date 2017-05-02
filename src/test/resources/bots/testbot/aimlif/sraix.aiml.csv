@@ -573,3 +573,4 @@
 0,WHAT TO DO *,*,*,<sraix>WHAT TO DO <star/></sraix>,sraix.aiml
 0,DID THE *,*,*,<sraix>DID THE <star/></sraix>,sraix.aiml
 0,WHAT IS THE,*,*,<sraix>WHAT IS THE</sraix>,sraix.aiml
+0,WAS GIBT ES NEUES,*,*,<sraix plugin="news"/>,sraix.aiml

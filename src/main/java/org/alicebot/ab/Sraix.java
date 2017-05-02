@@ -12,12 +12,8 @@ package org.alicebot.ab;
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
 import org.alicebot.ab.utils.CalendarUtils;
 import org.alicebot.ab.utils.NetworkUtils;
 import org.json.JSONArray;
@@ -25,8 +21,11 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Sraix {
 
@@ -34,16 +33,19 @@ public class Sraix {
 
   private static final UserInteraction userinteraction = new CommandLineInteraction();
 
+  private static NewsPlugin newsPlugin = new NewsPlugin();
+
   public static HashMap<String, String> custIdMap = new HashMap<String, String>();
 
   public static String custid = "1"; // customer ID number for Pandorabots
 
-  public static String sraix(Chat chatSession, String input, String defaultResponse, String hint, String host, String botid, String apiKey,
-      String limit) {
+  public static String sraix(Chat chatSession, String input, String defaultResponse, String hint, String host, String botid, String apiKey, String limit, final String plugin) {
     String response;
     if (!MagicBooleans.enable_network_connection)
       response = MagicStrings.sraix_failed;
-    else if (host != null && botid != null) {
+    else if (plugin.equals("news")) {
+      response = newsPlugin.getFirstEntry();
+    } else if (host != null && botid != null) {
       response = sraixPandorabots(input, chatSession, host, botid);
     } else
       response = sraixPannous(input, hint, chatSession);

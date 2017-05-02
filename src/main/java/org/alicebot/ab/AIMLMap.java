@@ -12,6 +12,12 @@ package org.alicebot.ab;
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+import net.seibertmedia.chatbot.CommandLineInteraction;
+import net.seibertmedia.chatbot.UserInteraction;
+import org.json.JSONArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,13 +26,6 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-
-import org.json.JSONArray;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import net.seibertmedia.chatbot.CommandLineInteraction;
-import net.seibertmedia.chatbot.UserInteraction;
 
 /**
  * implements AIML Map
@@ -90,7 +89,7 @@ public class AIMLMap extends HashMap<String, String> {
     } else if (isExternal && MagicBooleans.enable_external_sets) {
       // String[] split = key.split(" ");
       String query = mapName.toUpperCase() + " " + key;
-      String response = Sraix.sraix(null, query, MagicStrings.default_map, null, host, botid, null, "0");
+      String response = Sraix.sraix(null, query, MagicStrings.default_map, null, host, botid, null, "0", "");
       userinteraction.outputForUserWithNewline("External " + mapName + "(" + key + ")=" + response);
       value = response;
     } else {

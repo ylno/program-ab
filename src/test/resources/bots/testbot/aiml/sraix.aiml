@@ -1774,4 +1774,12 @@
 <category><pattern>WHAT IS THE</pattern>
 <template><sraix>WHAT IS THE</sraix></template>
 </category>
+
+	<category>
+		<pattern>WAS GIBT ES NEUES</pattern>
+		<template>
+			<sraix plugin="news"></sraix>
+		</template>
+	</category>
+
 </aiml>
