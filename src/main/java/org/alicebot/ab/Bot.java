@@ -13,6 +13,10 @@ package org.alicebot.ab;
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+import org.alicebot.ab.utils.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -27,10 +31,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.alicebot.ab.utils.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Class representing the AIML bot
@@ -339,7 +339,9 @@ public class Bot {
               try {
                 ArrayList<Category> moreCategories = AIMLProcessor.AIMLToCategories(aiml_path, file);
                 addMoreCategories(file, moreCategories);
-                cnt += moreCategories.size();
+                int size = moreCategories.size();
+                logger.debug("file {} size {}", file, size);
+                cnt += size;
               } catch (Exception iex) {
                 logger.debug("Problem loading " + file);
                 iex.printStackTrace();

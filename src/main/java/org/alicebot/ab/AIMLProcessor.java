@@ -23,9 +23,15 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The core AIML parser and interpreter. Implements the AIML 2.0 specification as described in AIML 2.0 Working Draft document
@@ -144,16 +150,16 @@ public class AIMLProcessor {
       for (int i = 0; i < nodelist.getLength(); i++) {
         Node n = nodelist.item(i);
         // logger.debug("AIML child: " +n.getNodeName());
-        if (n.getNodeName().equals("category")) {
+        if (n.getNodeName().toLowerCase().equals("category")) {
           categoryProcessor(n, categories, "*", aimlFile, language);
-        } else if (n.getNodeName().equals("topic")) {
+        } else if (n.getNodeName().toLowerCase().equals("topic")) {
           String topic = n.getAttributes().getNamedItem("name").getTextContent();
           // logger.debug("topic: " + topic);
           NodeList children = n.getChildNodes();
           for (int j = 0; j < children.getLength(); j++) {
             Node m = children.item(j);
             // logger.debug("Topic child: " + m.getNodeName());
-            if (m.getNodeName().equals("category")) {
+            if (m.getNodeName().toLowerCase().equals("category")) {
               categoryProcessor(m, categories, topic, aimlFile, language);
             }
           }
@@ -523,6 +529,46 @@ public class AIMLProcessor {
       result = predicateName;
     }
     // MagicBooleans.trace("in AIMLProcessor.set, returning: " + result);
+    return result;
+  }
+
+  private static String unknown(Node node, ParseState ps) { // add pronoun check
+    // MagicBooleans.trace("AIMLProcessor.set(node: " + node + ", ps: " + ps + ")");
+    HashSet<String> attributeNames = Utilities.stringSet("name", "var");
+    String predicateName = getAttributeOrTagValue(node, ps, "name");
+    String varName = getAttributeOrTagValue(node, ps, "var");
+    String result = evalTagContent(node, ps, attributeNames).trim();
+    result = result.replaceAll("(\r\n|\n\r|\r|\n)", " ");
+    String value = result.trim();
+
+    Pattern pattern = Pattern.compile("(.*)\\s\\[THAT:\\s(.*)\\]");
+    Matcher matcher = pattern.matcher(value);
+    if (matcher.find()) {
+      String userpattern = matcher.group(1);
+      String that = matcher.group(2);
+      StringBuilder tag = new StringBuilder();
+      tag.append("<category>\n")
+      .append("\t<pattern>").append(userpattern).append("</pattern>\n")
+      .append("\t<that>").append(that).append("</that>\n")
+      .append("\t<template>").append("</template>\n")
+      .append("</category>\n");
+
+      try {
+        logger.debug("write to file");
+        Files.write(Paths.get("learn.txt"), tag.toString().getBytes(), StandardOpenOption.APPEND);
+        logger.debug("write to file finished");
+      }catch (IOException e) {
+        try {
+          Files.write(Paths.get("learn.txt"), tag.toString().getBytes(), StandardOpenOption.CREATE);
+        } catch (IOException e1) {
+          logger.error("error creating", e);
+        }
+      }
+
+
+      logger.debug("tag {} ", tag.toString());
+    }
+
     return result;
   }
 
@@ -1493,6 +1539,8 @@ public class AIMLProcessor {
         return sraix(node, ps);
       else if (nodeName.equals("set"))
         return set(node, ps);
+      else if (nodeName.equals("unknown"))
+        return unknown(node, ps);
       else if (nodeName.equals("get"))
         return get(node, ps);
       else if (nodeName.equals("map")) // AIML 2.0 -- see also <set> in pattern
